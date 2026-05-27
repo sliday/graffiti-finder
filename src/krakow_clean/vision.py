@@ -18,10 +18,13 @@ from PIL import Image, ImageDraw
 # Prompt — GroundingDINO accepts period-separated text phrases.
 PROMPT = "graffiti. spray paint. wall tag. street art."
 
-# Score threshold from GroundingDINO ranges 0-1; tuned for high precision.
-BOX_THRESHOLD = 0.30
-TEXT_THRESHOLD = 0.25
-MIN_AREA_PX = 1500
+# Score threshold from GroundingDINO ranges 0-1. Tune sweep showed 0.30 misses
+# clear graffiti (sample_04) while 0.10 over-fires. 0.20 catches obvious wall
+# scribbles with manageable false positives; require ≥2000px to drop tiny
+# spurious boxes.
+BOX_THRESHOLD = 0.20
+TEXT_THRESHOLD = 0.18
+MIN_AREA_PX = 2000
 MAX_AREA_FRAC = 0.40
 
 MODEL_ID = "IDEA-Research/grounding-dino-base"

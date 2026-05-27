@@ -103,9 +103,11 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
       <li><span class="num">04</span> <a href="#pipeline">Pipeline · what the robot does in order</a></li>
       <li><span class="num">05</span> <a href="#places">Real places · real addresses</a></li>
       <li><span class="num">06</span> <a href="#vision">Vision · text-prompted detection</a></li>
-      <li><span class="num">07</span> <a href="#anonymity">Anonymity · what the city sees</a></li>
-      <li><span class="num">08</span> <a href="#safety">Safety · why we never auto-submit by default</a></li>
-      <li><span class="num">09</span> <a href="#stack">Stack and code</a></li>
+      <li><span class="num">07</span> <a href="#explore">Explore the actual walls</a></li>
+      <li><span class="num">08</span> <a href="#captcha">What the form actually shows</a></li>
+      <li><span class="num">09</span> <a href="#anonymity">Anonymity · what the city sees</a></li>
+      <li><span class="num">10</span> <a href="#safety">Safety · why we never auto-submit by default</a></li>
+      <li><span class="num">11</span> <a href="#stack">Stack and code</a></li>
     </ol>
   </div>
 </header>
@@ -320,6 +322,58 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
   }
 }</pre>
     <p>This is the JSON that goes to <code>addFeatures</code>. The crop image follows in a second <code>addAttachment</code> POST against the returned objectId. EXIF is stripped before upload. The image is re-encoded at quality 86 with a 1600px max edge.</p>
+  </div>
+</section>
+
+<section id="explore">
+  <div class="wrap">
+    <h2>Explore the actual walls.</h2>
+    <p class="kicker">Two corners where the corridor's graffiti density clusters. Both embeds use Mapillary's open imagery — no Google API key, no tracking.</p>
+
+    <h3>Czysta 1 corner (north end of Karmelicka)</h3>
+    <p>This frame produced 7 detections at <code>50.06390, 19.92761</code> — the highest concentration anywhere on the corridor. Visible tags include "JUMP8" in purple, a black-and-blue cluster on the lower wall, and the cream-coloured facade of Bar Mleczny.</p>
+    <div class="figure">
+      <iframe src="https://www.mapillary.com/embed?image_key=3689129454680282&style=photo" allowfullscreen style="width:100%;height:520px;border:1px solid var(--line);border-radius:8px"></iframe>
+      <figcaption>Mapillary image 3689129454680282 · drag to look around · 7 boxes drawn by GroundingDINO</figcaption>
+    </div>
+
+    <h3>Szewska 27 corner (south end, near Planty)</h3>
+    <p>3 detections at <code>50.06311, 19.93372</code> — smaller scribbles on the building base, visible as you approach from Dunajewskiego.</p>
+    <div class="figure">
+      <iframe src="https://www.mapillary.com/embed?image_key=3598709753764709&style=photo" allowfullscreen style="width:100%;height:520px;border:1px solid var(--line);border-radius:8px"></iframe>
+      <figcaption>Mapillary image 3598709753764709 · 3 boxes</figcaption>
+    </div>
+
+    <h3>Annotated overlay (rendered offline)</h3>
+    <p>The detector boxes drawn back onto the source image. Real positives: the "GZ", "JUMP8", and the dense black-paint cluster around the doorway. False positives: the tall vertical boxes around the lamp post and distant facade.</p>
+    <div class="figure">
+      <img src="data/queue_viz/3689129454680282/overlay.jpg" alt="Bar Mleczny corner with detection boxes">
+      <figcaption>queue_viz/3689129454680282/overlay.jpg · GroundingDINO at box_threshold=0.20</figcaption>
+    </div>
+
+    <h3>Google Street View, optionally</h3>
+    <p>The same locations work in Google Street View via the Maps Embed API. Set <code>GOOGLE_MAPS_EMBED_KEY</code> in <code>.env</code> and the iframes upgrade to Google panoramas:</p>
+    <pre>https://www.google.com/maps/embed/v1/streetview?key={KEY}
+  &amp;pano=cOWQfljzovXbiaTgkkj2mA
+  &amp;heading=337&amp;pitch=0&amp;fov=80</pre>
+    <p>The panoIDs from your initial Google Maps shares already work as <code>pano=</code> parameters. Without a key, Mapillary is the no-cost path.</p>
+  </div>
+</section>
+
+<section id="captcha">
+  <div class="wrap">
+    <h2>What the form actually shows.</h2>
+    <p class="kicker">A screenshot from the Playwright dry-fill caught something the static schema missed.</p>
+
+    <p>The XForm definition declares <code>captcha.isEnabled = false</code>. The live webform disagrees. After uploading a photo and starting to fill the categories, the form reveals an image CAPTCHA labelled "Wpisz tekst":</p>
+
+    <div class="figure">
+      <img src="data/runs/browser_fill/5c904830d8c16e2f573a0816afdc5a5c/11_ready_to_submit_NO_CLICK.png" alt="Survey123 form with CAPTCHA">
+      <figcaption>Live Survey123 fill, step 11. Note the "ZCNE" CAPTCHA next to "Wpisz tekst" and the green Wyślij button. The Playwright run never clicks submit.</figcaption>
+    </div>
+
+    <p>This confirms the architectural choice. Submitting through the webform would require solving an image CAPTCHA every time — either by OCR or by interrupting the human in the loop. Submitting through the FeatureServer's <code>addFeatures</code> endpoint bypasses the webform entirely; the captcha is enforced by JavaScript in the user-facing form, not by the underlying REST API.</p>
+    <p>The robot therefore uses the REST path. The browser dry-fill exists only to verify that, if you ever wanted to submit through the user-facing form, the schema mapping would round-trip correctly.</p>
   </div>
 </section>
 
