@@ -403,6 +403,15 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
 
     <div class="callout"><b>Status: queued, not submitted.</b> Run <code>uv run krakow-clean submit --live --confirm-token=WYSLIJ --limit 1</code> to send the highest-scoring entry. The double-gate prevents accidental sends.</div>
 
+    <h3>Shareable artifacts</h3>
+    <p>For manual filing or hand-off:</p>
+    <ul>
+      <li><a href="https://docs.google.com/spreadsheets/d/1rpZTPd4d3OkdQzv0HCn1Lruz2FpJOD7EMQ5hS2mhZ9U/edit">Google Sheet</a> — 5 form-ready rows with addresses, exported via <code>gws sheets</code>. Sort, filter, paste-into-form.</li>
+      <li><code>data/runs/20260527-171055/proposed.jsonl</code> — raw JSON, one entry per line, full payload + enrichment per detection.</li>
+      <li><code>data/queue_gallery.html</code> — overlay images and crop thumbnails locally.</li>
+      <li>Crop JPEGs in <code>data/images/crops/</code> — already EXIF-stripped equivalents ready for attachment upload.</li>
+    </ul>
+
     <h3>How the filter chain narrowed it down</h3>
     <table class="spec">
       <tr><th>stage</th><th>survivors</th><th>what it rejected</th></tr>
