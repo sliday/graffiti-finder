@@ -34,7 +34,10 @@ MIN_ASPECT_RATIO = 0.45
 
 # Lamp posts and dark sign poles have low color variance across their pixels.
 # Graffiti tags use paint with strong color shifts. Drop low-variance boxes.
-MIN_COLOR_STD = 22.0
+# Lowered from 22 → 16 after the GZ-on-pink-wall case: red-text on a uniform
+# wall produces a bbox where most pixels are still wall colour, dropping the
+# std into the high teens. CLIP second-stage catches the lamp-post escapees.
+MIN_COLOR_STD = 16.0
 
 # Skin and sky regions also trip the detector occasionally. They're nearly
 # monochrome too — covered by the color-std gate.

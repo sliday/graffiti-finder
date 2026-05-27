@@ -1,0 +1,59 @@
+<!doctype html><meta charset='utf-8'>
+<title>mlx-sam3 vs GroundingDINO+CLIP</title>
+<style>
+body{font:13px/1.4 -apple-system,system-ui,sans-serif;margin:18px;background:#0d0d10;color:#eee;max-width:1400px;margin-inline:auto}
+table{border-collapse:collapse;width:100%;table-layout:fixed}
+th,td{border:1px solid #333;padding:8px;vertical-align:top}
+th{color:#c9f76f;font-size:12px;text-align:left;text-transform:uppercase;letter-spacing:.05em}
+td:nth-child(1){width:160px;font-family:ui-monospace;font-size:11px;word-break:break-all}
+td:nth-child(2),td:nth-child(3){width:auto}
+img{display:block;width:100%;border-radius:4px}
+small{color:#9aa;font-family:ui-monospace}
+.legend{margin:14px 0;color:#9aa}
+.legend span{display:inline-block;margin-right:18px}
+.legend i{display:inline-block;width:14px;height:14px;vertical-align:-2px;border-radius:2px;margin-right:6px}
+</style>
+<h1>mlx-sam3 vs GroundingDINO+CLIP — A/B on Karmelicka + Kazimierz hotspots</h1>
+<p class="legend">
+<span><i style="background:#ff3c46"></i> GroundingDINO+CLIP (red boxes)</span>
+<span><i style="background:#3cc8ff"></i> mlx-sam3 (cyan boxes, score ≥ 0.55)</span>
+</p>
+<table>
+<tr><th>image</th><th>GroundingDINO + CLIP</th><th>mlx-sam3</th></tr>
+
+<tr>
+  <td>3689129454680282</td>
+  <td><img src="sam3_ab/3689129454680282/dino.jpg"><br>
+      <small>4 dets · threshold 0.2</small></td>
+  <td><img src="sam3_ab/3689129454680282/sam3.jpg"><br>
+      <small>12 kept of 21 (≥ 0.55) · 848ms</small></td>
+</tr>
+<tr>
+  <td>1237359060636431</td>
+  <td><img src="sam3_ab/1237359060636431/dino.jpg"><br>
+      <small>2 dets · threshold 0.2</small></td>
+  <td><img src="sam3_ab/1237359060636431/sam3.jpg"><br>
+      <small>5 kept of 12 (≥ 0.55) · 657ms</small></td>
+</tr>
+<tr>
+  <td>453477123994712</td>
+  <td><img src="sam3_ab/453477123994712/dino.jpg"><br>
+      <small>8 dets · threshold 0.2</small></td>
+  <td><img src="sam3_ab/453477123994712/sam3.jpg"><br>
+      <small>7 kept of 9 (≥ 0.55) · 653ms</small></td>
+</tr>
+<tr>
+  <td>972146901074126</td>
+  <td><img src="sam3_ab/972146901074126/dino.jpg"><br>
+      <small>5 dets · threshold 0.2</small></td>
+  <td><img src="sam3_ab/972146901074126/sam3.jpg"><br>
+      <small>6 kept of 10 (≥ 0.55) · 652ms</small></td>
+</tr>
+<tr>
+  <td>441112288652120</td>
+  <td><img src="sam3_ab/441112288652120/dino.jpg"><br>
+      <small>2 dets · threshold 0.2</small></td>
+  <td><img src="sam3_ab/441112288652120/sam3.jpg"><br>
+      <small>9 kept of 18 (≥ 0.55) · 654ms</small></td>
+</tr>
+</table>
