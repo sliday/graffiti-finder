@@ -1,0 +1,15 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+data/store.sqlite
+data/store.sqlite-journal
+data/images/
+data/runs/
+data/samples/*.jpg
+data/form/Gravvitti_v_1.zip
+data/form/extracted/
+codedb.snapshot
+.DS_Store
+.ruff_cache/

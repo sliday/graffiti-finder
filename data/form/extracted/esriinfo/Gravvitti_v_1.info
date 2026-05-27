@@ -1,0 +1,89 @@
+{
+    "collectInfo": {
+        "enabled": true
+    },
+    "displayInfo": {
+        "map": {
+            "defaultType": {
+                "name": "id:1e174bbc9a6d4bfdac6909d737c26fd9||OpenStreetMap"
+            },
+            "home": {
+                "latitude": 50.047268451655334,
+                "longitude": 19.958000219329534,
+                "zoomLevel": 11.76
+            },
+            "includeDefaultMaps": true,
+            "preview": {
+            }
+        },
+        "style": {
+        }
+    },
+    "foldersInfo": {
+        "showMap": true
+    },
+    "imagesInfo": {
+        "captureResolution": 1280
+    },
+    "locationSharingInfo": {
+        "enabled": true,
+        "required": false
+    },
+    "overviewInfo": {
+        "enabled": false
+    },
+    "publishInfo": {
+        "connectVersion": "3.25.27",
+        "webFormTransform": true
+    },
+    "queryInfo": {
+        "applySpatialFilter": true,
+        "copyEnabled": false,
+        "editEnabled": true,
+        "mode": "manual",
+        "viewEnabled": false,
+        "where": ""
+    },
+    "sentInfo": {
+        "copyEnabled": true,
+        "editEnabled": false,
+        "enabled": false
+    },
+    "webformInfo": {
+        "settings": {
+            "captcha": {
+                "content": "",
+                "isEnabled": false
+            },
+            "draftInfo": {
+                "isEnabled": false
+            },
+            "isVersionLocked": true,
+            "multiSubmissionInfo": {
+                "autoReload": -1,
+                "maxAllowed": 0,
+                "redirectUrl": "",
+                "showSubmitAnotherTip": false
+            },
+            "notificationsInfo": {
+            },
+            "openStatusInfo": {
+                "closedStatusContent": "<p style=\"text-align:center;\"><br></p><p style=\"text-align:center;\"><img src=\"media/openClose.png\"></p><p style=\"text-align:center;\"><br></p><p style=\"text-align:center;\"><strong style=\"font-size:16px;\">Ankieta jest obecnie zamknięta. </strong></p><p style=\"text-align:center;\"><strong style=\"font-size:16px;\">Przewidywany termin udostępnienia 21.03.2026 r.</strong></p><p style=\"text-align:center;\"><strong style=\"font-size:16px;\">Dziękujemy!</strong></p>",
+                "schedule": {
+                    "end": null,
+                    "start": "2026-03-21T00:00:00+01:00"
+                },
+                "status": "open"
+            },
+            "recordStartEndTime": {
+                "fieldInfos": [
+                ],
+                "isEnabled": false
+            },
+            "thankYouScreenContent": "",
+            "valueUpdateTrigger": "onInput"
+        },
+        "themes": [
+        ]
+    }
+}
