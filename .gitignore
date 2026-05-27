@@ -8,8 +8,16 @@ data/store.sqlite-journal
 data/images/
 data/runs/
 data/samples/*.jpg
+data/samples/detections/
+data/samples/tune/
+data/samples/sam3_vs_dino/
+data/queue_viz/
+data/diag/
 data/form/Gravvitti_v_1.zip
 data/form/extracted/
+vendor/
 codedb.snapshot
 .DS_Store
 .ruff_cache/
+*.bak
+*.bak2
