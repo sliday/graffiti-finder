@@ -5,6 +5,7 @@ Given a route (list of waypoints), returns image candidates along the corridor.
 from __future__ import annotations
 
 import math
+import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -87,6 +88,29 @@ def _parse_image(item: dict) -> ImageRef | None:
         return None
 
 
+def _fetch_with_retry(
+    client: httpx.Client, url: str, params: dict, attempts: int = 4
+) -> dict:
+    last_exc: Exception | None = None
+    for attempt in range(attempts):
+        try:
+            response = client.get(url, params=params, timeout=30)
+            if response.status_code >= 500:
+                last_exc = httpx.HTTPStatusError(
+                    f"HTTP {response.status_code}", request=response.request, response=response
+                )
+                time.sleep(2 ** attempt)
+                continue
+            response.raise_for_status()
+            return response.json()
+        except httpx.HTTPError as exc:
+            last_exc = exc
+            time.sleep(2 ** attempt)
+    if last_exc:
+        raise last_exc
+    return {}
+
+
 def search_corridor(
     config: Config,
     waypoints: list[Waypoint],
@@ -111,9 +135,8 @@ def search_corridor(
                 "bbox": ",".join(f"{v:.7f}" for v in tile),
                 "limit": per_tile_limit,
             }
-            response = client.get(f"{GRAPH_BASE}/images", params=params)
-            response.raise_for_status()
-            for raw in response.json().get("data", []):
+            data = _fetch_with_retry(client, f"{GRAPH_BASE}/images", params)
+            for raw in data.get("data", []):
                 ref = _parse_image(raw)
                 if ref is None:
                     continue
@@ -125,6 +148,38 @@ def search_corridor(
         return sorted(results.values(), key=lambda r: r.captured_at, reverse=True)
     finally:
         if owned_client:
+            client.close()
+
+
+def fetch_geometry(
+    config: Config, image_ids: list[str], client: httpx.Client | None = None
+) -> dict[str, ImageRef]:
+    """Look up Mapillary geometry + capture time for a list of image_ids.
+
+    Used by tooling that operates on the on-disk image cache without re-running
+    a full bbox search. One entity call per image_id; rate-limit is generous
+    (60k/min).
+    """
+    owned = client is None
+    if owned:
+        client = httpx.Client(timeout=20, http2=True)
+    refs: dict[str, ImageRef] = {}
+    try:
+        for image_id in image_ids:
+            params = {
+                "access_token": config.mapillary_token,
+                "fields": FIELDS,
+            }
+            try:
+                data = _fetch_with_retry(client, f"{GRAPH_BASE}/{image_id}", params, attempts=3)
+            except httpx.HTTPError:
+                continue
+            ref = _parse_image(data)
+            if ref is not None:
+                refs[image_id] = ref
+        return refs
+    finally:
+        if owned:
             client.close()
 
 

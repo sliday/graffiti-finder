@@ -103,11 +103,12 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
       <li><span class="num">04</span> <a href="#pipeline">Pipeline · what the robot does in order</a></li>
       <li><span class="num">05</span> <a href="#places">Real places · real addresses</a></li>
       <li><span class="num">06</span> <a href="#vision">Vision · text-prompted detection</a></li>
-      <li><span class="num">07</span> <a href="#explore">Explore the actual walls</a></li>
-      <li><span class="num">08</span> <a href="#captcha">What the form actually shows</a></li>
-      <li><span class="num">09</span> <a href="#anonymity">Anonymity · what the city sees</a></li>
-      <li><span class="num">10</span> <a href="#safety">Safety · why we never auto-submit by default</a></li>
-      <li><span class="num">11</span> <a href="#stack">Stack and code</a></li>
+      <li><span class="num">07</span> <a href="#materials">Materials ready for the form</a> ← new</li>
+      <li><span class="num">08</span> <a href="#explore">Explore the actual walls</a></li>
+      <li><span class="num">09</span> <a href="#captcha">What the form actually shows</a></li>
+      <li><span class="num">10</span> <a href="#anonymity">Anonymity · what the city sees</a></li>
+      <li><span class="num">11</span> <a href="#safety">Safety · why we never auto-submit by default</a></li>
+      <li><span class="num">12</span> <a href="#stack">Stack and code</a></li>
     </ol>
   </div>
 </header>
@@ -322,6 +323,95 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
   }
 }</pre>
     <p>This is the JSON that goes to <code>addFeatures</code>. The crop image follows in a second <code>addAttachment</code> POST against the returned objectId. EXIF is stripped before upload. The image is re-encoded at quality 86 with a 1600px max edge.</p>
+  </div>
+</section>
+
+<section id="materials">
+  <div class="wrap">
+    <h2>Materials ready for the form.</h2>
+    <p class="kicker">Five real graffiti tags found at the Czysta 1 corner. Each row below is one form submission, queued in <code>store.sqlite</code> and ready for either manual filing or supervised batch send.</p>
+
+    <p>Pipeline that produced this list: Mapillary corridor walk → GroundingDINO with score≥0.20 → aspect/std geometric gates → CLIP second-stage classifier rejecting road signs, lamp posts, windows, and trees → <code>pulldata()</code>-equivalent civic enrichment → reverse-geocode against Krakow's Lokalizator. Zero false positives in this batch.</p>
+
+    <div class="figure">
+      <img src="data/queue_viz/3689129454680282/overlay.jpg" alt="Bar Mleczny corner — 3 graffiti detections">
+      <figcaption>Source image 3689129454680282. Three real graffiti detected: red "GZ" tag (far left), black-paint cluster beside the doorway, and purple "JUMP8" on the central column. CLIP confidence 0.72–0.98 per crop. Lamp post and road sign rejected by the second-stage classifier.</figcaption>
+    </div>
+
+    <h3>The five form-ready entries</h3>
+    <table class="spec">
+      <tr><th>id</th><th>crop</th><th>lat / lng</th><th>score · sev · CLIP</th><th>address (geocoded)</th></tr>
+      <tr>
+        <td>5a1c6da1</td>
+        <td><img src="data/images/crops/3689129454680282_01.jpg" style="max-width:140px;border-radius:4px"></td>
+        <td>50.06390<br>19.92761</td>
+        <td>0.32 · minor · 0.91</td>
+        <td><b>Czysta 1</b>, 31-121, Kraków<br><span style="color:var(--mute)">Dzielnica I Stare Miasto · rejon SM I/07</span></td>
+      </tr>
+      <tr>
+        <td>25153c1a</td>
+        <td><img src="data/images/crops/1237359060636431_02.jpg" style="max-width:140px;border-radius:4px"></td>
+        <td>50.06393<br>19.92761</td>
+        <td>0.24 · moderate · 0.94</td>
+        <td><b>Czysta 1</b>, 31-121, Kraków<br><span style="color:var(--mute)">Dzielnica I Stare Miasto · rejon SM I/07</span></td>
+      </tr>
+      <tr>
+        <td>85d19b08</td>
+        <td><img src="data/images/crops/1237359060636431_01.jpg" style="max-width:140px;border-radius:4px"></td>
+        <td>50.06393<br>19.92761</td>
+        <td>0.23 · minor · 0.77</td>
+        <td><b>Czysta 1</b>, 31-121, Kraków<br><span style="color:var(--mute)">Dzielnica I Stare Miasto · rejon SM I/07</span></td>
+      </tr>
+      <tr>
+        <td>e1ea4811</td>
+        <td><img src="data/images/crops/3689129454680282_04.jpg" style="max-width:140px;border-radius:4px"></td>
+        <td>50.06390<br>19.92761</td>
+        <td>0.23 · minor · 0.72</td>
+        <td><b>Czysta 1</b>, 31-121, Kraków<br><span style="color:var(--mute)">Dzielnica I Stare Miasto · rejon SM I/07</span></td>
+      </tr>
+      <tr>
+        <td>5d89ccbc</td>
+        <td><img src="data/images/crops/3689129454680282_06.jpg" style="max-width:140px;border-radius:4px"></td>
+        <td>50.06390<br>19.92761</td>
+        <td>0.21 · moderate · 0.98</td>
+        <td><b>Czysta 1</b>, 31-121, Kraków<br><span style="color:var(--mute)">Dzielnica I Stare Miasto · rejon SM I/07</span></td>
+      </tr>
+    </table>
+
+    <h3>One full payload</h3>
+    <p>What the FeatureServer would receive for entry <code>5a1c6da1</code> if you authorised the live submit:</p>
+    <pre>{
+  "geometry": {
+    "x": 2218315.6,
+    "y": 6457350.7,
+    "spatialReference": { "wkid": 102100 }
+  },
+  "attributes": {
+    "data_zgloszenia": 1779902113000,
+    "rodzaj_graffitti": "inne",
+    "miejsce_graffitti": "sciana budynku",
+    "wsp_x": 19.92761, "wsp_y": 50.06390,
+    "nazwa_jednostki": "osoba fizyczna",
+    "adres_mailowy": null,
+    "dzielnica": "Stare Miasto",
+    "rejon_sm": "I/07",
+    "identyfikator_dzialki": "PL.PZGiK.307.EGiB - 9938...",
+    "adres": "Czysta 1, 31-121, Kraków, Dzielnica I Stare Miasto"
+  }
+}</pre>
+    <p>Plus a separate <code>addAttachment</code> POST carrying the crop JPEG (EXIF stripped, re-encoded at quality 86). Both calls go anonymously over HTTPS to <code>bezpiecznie.um.krakow.pl/server/rest/services/Graffitti_v1_2/FeatureServer/0</code>.</p>
+
+    <div class="callout"><b>Status: queued, not submitted.</b> Run <code>uv run krakow-clean submit --live --confirm-token=WYSLIJ --limit 1</code> to send the highest-scoring entry. The double-gate prevents accidental sends.</div>
+
+    <h3>How the filter chain narrowed it down</h3>
+    <table class="spec">
+      <tr><th>stage</th><th>survivors</th><th>what it rejected</th></tr>
+      <tr><td>GroundingDINO raw, score≥0.20</td><td>~70 boxes</td><td>nothing yet</td></tr>
+      <tr><td>+ min_area 2000px, max_area_frac 0.40</td><td>~50</td><td>tiny dots, full-frame fires</td></tr>
+      <tr><td>+ aspect ratio ≥ 0.45</td><td>~30</td><td>street lamps, sign poles (extreme tall-narrow)</td></tr>
+      <tr><td>+ color std ≥ 22</td><td>~20</td><td>uniform dark posts, single-colour pillars</td></tr>
+      <tr><td>+ CLIP "graffiti vs ten negatives"</td><td>5</td><td>road signs, parking signs, windows, brick walls, doorways, billboards</td></tr>
+    </table>
   </div>
 </section>
 

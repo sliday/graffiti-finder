@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-SCHEMA = """
+TABLE_DDL = """
 CREATE TABLE IF NOT EXISTS detections (
     detection_id  TEXT PRIMARY KEY,
     image_id      TEXT NOT NULL,
@@ -19,16 +19,29 @@ CREATE TABLE IF NOT EXISTS detections (
     rodzaj        TEXT,
     miejsce       TEXT,
     crop_path     TEXT,
+    crop_phash    TEXT,
     detected_at   TEXT NOT NULL,
     submitted_at  TEXT,
     submit_status TEXT NOT NULL DEFAULT 'pending',
     instance_id   TEXT,
     response_blob TEXT
 );
+"""
 
+INDEX_DDL = """
 CREATE INDEX IF NOT EXISTS idx_loc ON detections(round(lat, 4), round(lng, 4));
 CREATE INDEX IF NOT EXISTS idx_status ON detections(submit_status);
+CREATE INDEX IF NOT EXISTS idx_phash ON detections(crop_phash);
 """
+
+
+def _migrate(conn: sqlite3.Connection) -> None:
+    """Add crop_phash column on existing DBs (best-effort)."""
+    try:
+        conn.execute("ALTER TABLE detections ADD COLUMN crop_phash TEXT")
+        conn.commit()
+    except sqlite3.OperationalError:
+        pass  # column exists
 
 
 @dataclass(frozen=True)
@@ -49,9 +62,20 @@ class StoredDetection:
 def open_store(path: Path) -> sqlite3.Connection:
     path.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(path)
-    conn.executescript(SCHEMA)
+    conn.executescript(TABLE_DDL)
+    _migrate(conn)
+    conn.executescript(INDEX_DDL)
     conn.row_factory = sqlite3.Row
     return conn
+
+
+def _phash_hamming(a: str, b: str) -> int:
+    """Hamming distance between two ImageHash hex strings."""
+    if not a or not b or len(a) != len(b):
+        return 64  # max distance for 64-bit pHash
+    ia = int(a, 16)
+    ib = int(b, 16)
+    return bin(ia ^ ib).count("1")
 
 
 def detection_id(image_id: str, mask_phash: str) -> str:
@@ -75,6 +99,7 @@ def has_recent_neighbor(
     radius_m: float = 30.0,
     days: int = 30,
 ) -> bool:
+    """True if any *submitted* record within radius_m in the last `days`."""
     cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
     rows = conn.execute(
         """
@@ -89,6 +114,48 @@ def has_recent_neighbor(
     return any(_haversine_m(lat, lng, r["lat"], r["lng"]) <= radius_m for r in rows)
 
 
+def has_close_existing(
+    conn: sqlite3.Connection,
+    lat: float,
+    lng: float,
+    *,
+    radius_m: float = 12.0,
+) -> bool:
+    """True if any record (pending OR submitted) within radius_m.
+
+    Tight radius — same wall captured from different angles in a Mapillary
+    sequence lands within ~12 m of itself even with GPS noise.
+    """
+    rows = conn.execute(
+        """
+        SELECT lat, lng FROM detections
+        WHERE round(lat, 3) BETWEEN round(?, 3) - 0.001 AND round(?, 3) + 0.001
+          AND round(lng, 3) BETWEEN round(?, 3) - 0.001 AND round(?, 3) + 0.001
+        """,
+        (lat, lat, lng, lng),
+    ).fetchall()
+    return any(_haversine_m(lat, lng, r["lat"], r["lng"]) <= radius_m for r in rows)
+
+
+def has_similar_crop(
+    conn: sqlite3.Connection,
+    crop_phash: str,
+    *,
+    max_hamming: int = 10,
+) -> bool:
+    """True if any existing crop's pHash is within Hamming distance.
+
+    pHash is computed on the crop bitmap, so near-duplicate graffiti shots
+    from sequential Mapillary frames collide here even when GPS drifts.
+    """
+    if not crop_phash:
+        return False
+    rows = conn.execute(
+        "SELECT crop_phash FROM detections WHERE crop_phash IS NOT NULL"
+    ).fetchall()
+    return any(_phash_hamming(crop_phash, r["crop_phash"]) <= max_hamming for r in rows)
+
+
 def upsert_pending(
     conn: sqlite3.Connection,
     detection_id_: str,
@@ -100,6 +167,7 @@ def upsert_pending(
     rodzaj: str,
     miejsce: str,
     crop_path: Path,
+    crop_phash: str | None = None,
 ) -> bool:
     """Return True if newly inserted, False if it already existed."""
     detected_at = datetime.now(timezone.utc).isoformat()
@@ -107,8 +175,8 @@ def upsert_pending(
         """
         INSERT OR IGNORE INTO detections
         (detection_id, image_id, lat, lng, severity, score, rodzaj, miejsce,
-         crop_path, detected_at, submit_status)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
+         crop_path, crop_phash, detected_at, submit_status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
         """,
         (
             detection_id_,
@@ -120,6 +188,7 @@ def upsert_pending(
             rodzaj,
             miejsce,
             str(crop_path),
+            crop_phash,
             detected_at,
         ),
     )

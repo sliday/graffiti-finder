@@ -13,7 +13,9 @@ from rich.console import Console
 from .config import Config
 from .dedup import (
     detection_id,
+    has_close_existing,
     has_recent_neighbor,
+    has_similar_crop,
     open_store,
     upsert_pending,
 )
@@ -71,7 +73,14 @@ def walk_and_detect(
                     continue
                 phash = _phash(det.crop_path)
                 did = detection_id(ref.id, phash)
+                # pHash dedup catches the same tag captured from sequential
+                # Mapillary frames. Different tags at the same wall produce
+                # distinct pHashes and survive. Spatial dedup is kept only
+                # for the cross-run "we already submitted this" check.
                 if has_recent_neighbor(conn, ref.lat, ref.lng):
+                    continue
+                if has_similar_crop(conn, phash):
+                    console.print(f"[grey]~ near-dup pHash {ref.id}[/]")
                     continue
                 inserted = upsert_pending(
                     conn,
@@ -84,6 +93,7 @@ def walk_and_detect(
                     RODZAJ["other"],
                     MIEJSCE["building_wall"],
                     det.crop_path,
+                    crop_phash=phash,
                 )
                 if inserted:
                     det.mask_phash = phash
