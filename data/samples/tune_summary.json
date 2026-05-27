@@ -1,0 +1,322 @@
+{
+  "p0_b30": {
+    "prompt": "graffiti. spray paint. wall tag. street art.",
+    "box": 0.3,
+    "text": 0.25,
+    "totals": {
+      "sample_00_607703458744288.jpg": 0,
+      "sample_01_929218989255028.jpg": 0,
+      "sample_02_792471472888873.jpg": 0,
+      "sample_03_1269220801098108.jpg": 0,
+      "sample_04_1729574321206151.jpg": 0,
+      "sample_05_864047762354004.jpg": 0,
+      "sample_06_1949147672180220.jpg": 0,
+      "sample_07_1188394959117681.jpg": 0
+    },
+    "grand_total": 0
+  },
+  "p0_b20": {
+    "prompt": "graffiti. spray paint. wall tag. street art.",
+    "box": 0.2,
+    "text": 0.18,
+    "totals": {
+      "sample_00_607703458744288.jpg": 0,
+      "sample_01_929218989255028.jpg": 0,
+      "sample_02_792471472888873.jpg": 0,
+      "sample_03_1269220801098108.jpg": 2,
+      "sample_04_1729574321206151.jpg": 0,
+      "sample_05_864047762354004.jpg": 1,
+      "sample_06_1949147672180220.jpg": 0,
+      "sample_07_1188394959117681.jpg": 0
+    },
+    "grand_total": 3
+  },
+  "p0_b15": {
+    "prompt": "graffiti. spray paint. wall tag. street art.",
+    "box": 0.15,
+    "text": 0.12,
+    "totals": {
+      "sample_00_607703458744288.jpg": 0,
+      "sample_01_929218989255028.jpg": 1,
+      "sample_02_792471472888873.jpg": 1,
+      "sample_03_1269220801098108.jpg": 5,
+      "sample_04_1729574321206151.jpg": 0,
+      "sample_05_864047762354004.jpg": 2,
+      "sample_06_1949147672180220.jpg": 0,
+      "sample_07_1188394959117681.jpg": 0
+    },
+    "grand_total": 9
+  },
+  "p0_b10": {
+    "prompt": "graffiti. spray paint. wall tag. street art.",
+    "box": 0.1,
+    "text": 0.1,
+    "totals": {
+      "sample_00_607703458744288.jpg": 1,
+      "sample_01_929218989255028.jpg": 1,
+      "sample_02_792471472888873.jpg": 2,
+      "sample_03_1269220801098108.jpg": 6,
+      "sample_04_1729574321206151.jpg": 2,
+      "sample_05_864047762354004.jpg": 4,
+      "sample_06_1949147672180220.jpg": 1,
+      "sample_07_1188394959117681.jpg": 6
+    },
+    "grand_total": 23
+  },
+  "p1_b30": {
+    "prompt": "graffiti.",
+    "box": 0.3,
+    "text": 0.25,
+    "totals": {
+      "sample_00_607703458744288.jpg": 2,
+      "sample_01_929218989255028.jpg": 1,
+      "sample_02_792471472888873.jpg": 2,
+      "sample_03_1269220801098108.jpg": 2,
+      "sample_04_1729574321206151.jpg": 2,
+      "sample_05_864047762354004.jpg": 2,
+      "sample_06_1949147672180220.jpg": 2,
+      "sample_07_1188394959117681.jpg": 3
+    },
+    "grand_total": 16
+  },
+  "p1_b20": {
+    "prompt": "graffiti.",
+    "box": 0.2,
+    "text": 0.18,
+    "totals": {
+      "sample_00_607703458744288.jpg": 4,
+      "sample_01_929218989255028.jpg": 4,
+      "sample_02_792471472888873.jpg": 6,
+      "sample_03_1269220801098108.jpg": 6,
+      "sample_04_1729574321206151.jpg": 9,
+      "sample_05_864047762354004.jpg": 5,
+      "sample_06_1949147672180220.jpg": 4,
+      "sample_07_1188394959117681.jpg": 4
+    },
+    "grand_total": 42
+  },
+  "p1_b15": {
+    "prompt": "graffiti.",
+    "box": 0.15,
+    "text": 0.12,
+    "totals": {
+      "sample_00_607703458744288.jpg": 12,
+      "sample_01_929218989255028.jpg": 10,
+      "sample_02_792471472888873.jpg": 10,
+      "sample_03_1269220801098108.jpg": 10,
+      "sample_04_1729574321206151.jpg": 14,
+      "sample_05_864047762354004.jpg": 5,
+      "sample_06_1949147672180220.jpg": 7,
+      "sample_07_1188394959117681.jpg": 9
+    },
+    "grand_total": 77
+  },
+  "p1_b10": {
+    "prompt": "graffiti.",
+    "box": 0.1,
+    "text": 0.1,
+    "totals": {
+      "sample_00_607703458744288.jpg": 20,
+      "sample_01_929218989255028.jpg": 25,
+      "sample_02_792471472888873.jpg": 18,
+      "sample_03_1269220801098108.jpg": 23,
+      "sample_04_1729574321206151.jpg": 24,
+      "sample_05_864047762354004.jpg": 14,
+      "sample_06_1949147672180220.jpg": 9,
+      "sample_07_1188394959117681.jpg": 23
+    },
+    "grand_total": 156
+  },
+  "p2_b30": {
+    "prompt": "spray paint marks on wall. scribbles on wall. wall tag.",
+    "box": 0.3,
+    "text": 0.25,
+    "totals": {
+      "sample_00_607703458744288.jpg": 0,
+      "sample_01_929218989255028.jpg": 0,
+      "sample_02_792471472888873.jpg": 0,
+      "sample_03_1269220801098108.jpg": 0,
+      "sample_04_1729574321206151.jpg": 0,
+      "sample_05_864047762354004.jpg": 0,
+      "sample_06_1949147672180220.jpg": 0,
+      "sample_07_1188394959117681.jpg": 1
+    },
+    "grand_total": 1
+  },
+  "p2_b20": {
+    "prompt": "spray paint marks on wall. scribbles on wall. wall tag.",
+    "box": 0.2,
+    "text": 0.18,
+    "totals": {
+      "sample_00_607703458744288.jpg": 2,
+      "sample_01_929218989255028.jpg": 6,
+      "sample_02_792471472888873.jpg": 1,
+      "sample_03_1269220801098108.jpg": 7,
+      "sample_04_1729574321206151.jpg": 6,
+      "sample_05_864047762354004.jpg": 10,
+      "sample_06_1949147672180220.jpg": 2,
+      "sample_07_1188394959117681.jpg": 5
+    },
+    "grand_total": 39
+  },
+  "p2_b15": {
+    "prompt": "spray paint marks on wall. scribbles on wall. wall tag.",
+    "box": 0.15,
+    "text": 0.12,
+    "totals": {
+      "sample_00_607703458744288.jpg": 10,
+      "sample_01_929218989255028.jpg": 25,
+      "sample_02_792471472888873.jpg": 7,
+      "sample_03_1269220801098108.jpg": 17,
+      "sample_04_1729574321206151.jpg": 16,
+      "sample_05_864047762354004.jpg": 19,
+      "sample_06_1949147672180220.jpg": 8,
+      "sample_07_1188394959117681.jpg": 11
+    },
+    "grand_total": 113
+  },
+  "p2_b10": {
+    "prompt": "spray paint marks on wall. scribbles on wall. wall tag.",
+    "box": 0.1,
+    "text": 0.1,
+    "totals": {
+      "sample_00_607703458744288.jpg": 30,
+      "sample_01_929218989255028.jpg": 52,
+      "sample_02_792471472888873.jpg": 47,
+      "sample_03_1269220801098108.jpg": 41,
+      "sample_04_1729574321206151.jpg": 33,
+      "sample_05_864047762354004.jpg": 36,
+      "sample_06_1949147672180220.jpg": 39,
+      "sample_07_1188394959117681.jpg": 41
+    },
+    "grand_total": 319
+  },
+  "p3_b30": {
+    "prompt": "vandalism. wall scribbles. spray paint.",
+    "box": 0.3,
+    "text": 0.25,
+    "totals": {
+      "sample_00_607703458744288.jpg": 0,
+      "sample_01_929218989255028.jpg": 0,
+      "sample_02_792471472888873.jpg": 1,
+      "sample_03_1269220801098108.jpg": 0,
+      "sample_04_1729574321206151.jpg": 0,
+      "sample_05_864047762354004.jpg": 0,
+      "sample_06_1949147672180220.jpg": 0,
+      "sample_07_1188394959117681.jpg": 0
+    },
+    "grand_total": 1
+  },
+  "p3_b20": {
+    "prompt": "vandalism. wall scribbles. spray paint.",
+    "box": 0.2,
+    "text": 0.18,
+    "totals": {
+      "sample_00_607703458744288.jpg": 3,
+      "sample_01_929218989255028.jpg": 4,
+      "sample_02_792471472888873.jpg": 1,
+      "sample_03_1269220801098108.jpg": 0,
+      "sample_04_1729574321206151.jpg": 2,
+      "sample_05_864047762354004.jpg": 4,
+      "sample_06_1949147672180220.jpg": 3,
+      "sample_07_1188394959117681.jpg": 1
+    },
+    "grand_total": 18
+  },
+  "p3_b15": {
+    "prompt": "vandalism. wall scribbles. spray paint.",
+    "box": 0.15,
+    "text": 0.12,
+    "totals": {
+      "sample_00_607703458744288.jpg": 6,
+      "sample_01_929218989255028.jpg": 11,
+      "sample_02_792471472888873.jpg": 2,
+      "sample_03_1269220801098108.jpg": 4,
+      "sample_04_1729574321206151.jpg": 7,
+      "sample_05_864047762354004.jpg": 5,
+      "sample_06_1949147672180220.jpg": 3,
+      "sample_07_1188394959117681.jpg": 3
+    },
+    "grand_total": 41
+  },
+  "p3_b10": {
+    "prompt": "vandalism. wall scribbles. spray paint.",
+    "box": 0.1,
+    "text": 0.1,
+    "totals": {
+      "sample_00_607703458744288.jpg": 12,
+      "sample_01_929218989255028.jpg": 25,
+      "sample_02_792471472888873.jpg": 7,
+      "sample_03_1269220801098108.jpg": 9,
+      "sample_04_1729574321206151.jpg": 21,
+      "sample_05_864047762354004.jpg": 11,
+      "sample_06_1949147672180220.jpg": 8,
+      "sample_07_1188394959117681.jpg": 11
+    },
+    "grand_total": 104
+  },
+  "p4_b30": {
+    "prompt": "graffiti tag. spray paint. street art. wall vandalism.",
+    "box": 0.3,
+    "text": 0.25,
+    "totals": {
+      "sample_00_607703458744288.jpg": 0,
+      "sample_01_929218989255028.jpg": 0,
+      "sample_02_792471472888873.jpg": 0,
+      "sample_03_1269220801098108.jpg": 0,
+      "sample_04_1729574321206151.jpg": 0,
+      "sample_05_864047762354004.jpg": 1,
+      "sample_06_1949147672180220.jpg": 0,
+      "sample_07_1188394959117681.jpg": 0
+    },
+    "grand_total": 1
+  },
+  "p4_b20": {
+    "prompt": "graffiti tag. spray paint. street art. wall vandalism.",
+    "box": 0.2,
+    "text": 0.18,
+    "totals": {
+      "sample_00_607703458744288.jpg": 0,
+      "sample_01_929218989255028.jpg": 1,
+      "sample_02_792471472888873.jpg": 1,
+      "sample_03_1269220801098108.jpg": 3,
+      "sample_04_1729574321206151.jpg": 1,
+      "sample_05_864047762354004.jpg": 2,
+      "sample_06_1949147672180220.jpg": 0,
+      "sample_07_1188394959117681.jpg": 0
+    },
+    "grand_total": 8
+  },
+  "p4_b15": {
+    "prompt": "graffiti tag. spray paint. street art. wall vandalism.",
+    "box": 0.15,
+    "text": 0.12,
+    "totals": {
+      "sample_00_607703458744288.jpg": 0,
+      "sample_01_929218989255028.jpg": 3,
+      "sample_02_792471472888873.jpg": 3,
+      "sample_03_1269220801098108.jpg": 5,
+      "sample_04_1729574321206151.jpg": 2,
+      "sample_05_864047762354004.jpg": 3,
+      "sample_06_1949147672180220.jpg": 0,
+      "sample_07_1188394959117681.jpg": 1
+    },
+    "grand_total": 17
+  },
+  "p4_b10": {
+    "prompt": "graffiti tag. spray paint. street art. wall vandalism.",
+    "box": 0.1,
+    "text": 0.1,
+    "totals": {
+      "sample_00_607703458744288.jpg": 3,
+      "sample_01_929218989255028.jpg": 14,
+      "sample_02_792471472888873.jpg": 6,
+      "sample_03_1269220801098108.jpg": 8,
+      "sample_04_1729574321206151.jpg": 8,
+      "sample_05_864047762354004.jpg": 6,
+      "sample_06_1949147672180220.jpg": 1,
+      "sample_07_1188394959117681.jpg": 9
+    },
+    "grand_total": 55
+  }
+}

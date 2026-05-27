@@ -1,30 +1,34 @@
-"""Graffiti detection using facebook/sam3 (HuggingFace transformers).
+"""Graffiti detection using IDEA-Research/grounding-dino-base.
 
-Text-prompted concept segmentation. We use "graffiti" + variants. Returns
-mask metadata and saves cropped JPEGs of detections to disk.
+GroundingDINO does zero-shot, text-prompted object detection. We prompt with
+graffiti-flavoured phrases and accept bounding boxes whose score and area
+clear thresholds. Bounding boxes (not masks) are returned — sufficient for
+the city report payload.
 """
 from __future__ import annotations
 
 import io
 from dataclasses import dataclass, field
-from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
 import torch
-from PIL import Image
+from PIL import Image, ImageDraw
 
-# Lazy imports for transformers — SAM3 weights are several GB; keep the import
-# cost off the CLI critical path until a detector is actually requested.
+# Prompt — GroundingDINO accepts period-separated text phrases.
+PROMPT = "graffiti. spray paint. wall tag. street art."
+
+# Score threshold from GroundingDINO ranges 0-1; tuned for high precision.
+BOX_THRESHOLD = 0.30
+TEXT_THRESHOLD = 0.25
+MIN_AREA_PX = 1500
+MAX_AREA_FRAC = 0.40
+
+MODEL_ID = "IDEA-Research/grounding-dino-base"
+
 _MODEL = None
 _PROCESSOR = None
-_DEVICE = None
-
-
-PROMPT = "graffiti on a wall"
-SCORE_THRESHOLD = 0.55
-MIN_AREA_PX = 1500
-MAX_AREA_FRAC = 0.4
+_DEVICE: torch.device | None = None
 
 
 @dataclass
@@ -35,6 +39,7 @@ class Detection:
     score: float
     area_px: int
     severity: str
+    label: str
     crop_path: Path | None = None
     mask_phash: str | None = None
     extras: dict = field(default_factory=dict)
@@ -51,18 +56,16 @@ def _device() -> torch.device:
 def _load() -> tuple[object, object, torch.device]:
     global _MODEL, _PROCESSOR, _DEVICE
     if _MODEL is None:
-        from transformers import Sam3Model, Sam3Processor  # type: ignore[attr-defined]
+        from transformers import AutoModelForZeroShotObjectDetection, AutoProcessor
 
         _DEVICE = _device()
-        _MODEL = Sam3Model.from_pretrained("facebook/sam3").to(_DEVICE).eval()
-        _PROCESSOR = Sam3Processor.from_pretrained("facebook/sam3")
+        _PROCESSOR = AutoProcessor.from_pretrained(MODEL_ID)
+        _MODEL = (
+            AutoModelForZeroShotObjectDetection.from_pretrained(MODEL_ID)
+            .to(_DEVICE)
+            .eval()
+        )
     return _MODEL, _PROCESSOR, _DEVICE
-
-
-@lru_cache(maxsize=1)
-def _warm() -> None:
-    """Trigger model load eagerly when caller wants startup cost up front."""
-    _load()
 
 
 def _severity(area_frac: float, contrast: float) -> str:
@@ -73,14 +76,19 @@ def _severity(area_frac: float, contrast: float) -> str:
     return "minor"
 
 
-def _contrast(image_rgb: np.ndarray, mask: np.ndarray) -> float:
-    if mask.sum() == 0:
+def _bbox_contrast(image_rgb: np.ndarray, bbox: tuple[int, int, int, int]) -> float:
+    x0, y0, x1, y1 = bbox
+    inside = image_rgb[y0:y1, x0:x1]
+    if inside.size == 0:
         return 0.0
-    inside = image_rgb[mask]
-    outside = image_rgb[~mask]
+    mean_in = inside.reshape(-1, 3).mean(axis=0)
+    h, w, _ = image_rgb.shape
+    mask = np.ones((h, w), dtype=bool)
+    mask[y0:y1, x0:x1] = False
+    outside = image_rgb[mask]
     if outside.size == 0:
         return 0.0
-    return float(abs(inside.mean() - outside.mean()))
+    return float(np.abs(mean_in - outside.reshape(-1, 3).mean(axis=0)).mean())
 
 
 def detect(
@@ -89,11 +97,6 @@ def detect(
     crop_dir: Path,
     prompt: str = PROMPT,
 ) -> list[Detection]:
-    """Run SAM3 on a single image and return surviving detections.
-
-    Detections survive when: score >= SCORE_THRESHOLD AND
-    mask_area >= MIN_AREA_PX AND mask_area / image_area <= MAX_AREA_FRAC.
-    """
     model, processor, device = _load()
     image = Image.open(image_path).convert("RGB")
     w, h = image.size
@@ -104,29 +107,26 @@ def detect(
     with torch.no_grad():
         outputs = model(**inputs)
 
-    target_size = inputs.get("original_sizes")
-    if target_size is not None:
-        target_size = target_size.tolist()
-    results = processor.post_process_instance_segmentation(
+    results = processor.post_process_grounded_object_detection(
         outputs,
-        threshold=SCORE_THRESHOLD,
-        mask_threshold=0.5,
-        target_sizes=target_size,
+        inputs.input_ids,
+        threshold=BOX_THRESHOLD,
+        text_threshold=TEXT_THRESHOLD,
+        target_sizes=[(h, w)],
     )[0]
 
     detections: list[Detection] = []
-    masks = results.get("masks", [])
-    scores = results.get("scores", [])
-    for idx, (mask_tensor, score) in enumerate(zip(masks, scores)):
-        mask = mask_tensor.cpu().numpy().astype(bool)
-        area = int(mask.sum())
+    for idx, (box, score, label) in enumerate(
+        zip(results["boxes"], results["scores"], results.get("text_labels", results.get("labels", [])))
+    ):
+        x0, y0, x1, y1 = [int(v) for v in box.tolist()]
+        area = max(0, (x1 - x0) * (y1 - y0))
         if area < MIN_AREA_PX:
             continue
         if area / image_area > MAX_AREA_FRAC:
             continue
-        ys, xs = np.where(mask)
-        bbox = (int(xs.min()), int(ys.min()), int(xs.max()), int(ys.max()))
-        contrast = _contrast(np_image, mask)
+        bbox = (x0, y0, x1, y1)
+        contrast = _bbox_contrast(np_image, bbox)
         severity = _severity(area / image_area, contrast)
 
         crop = image.crop(bbox)
@@ -142,11 +142,37 @@ def detect(
                 score=float(score),
                 area_px=area,
                 severity=severity,
+                label=str(label),
                 crop_path=crop_path,
-                extras={"contrast": contrast, "area_frac": area / image_area},
+                extras={
+                    "contrast": contrast,
+                    "area_frac": area / image_area,
+                },
             )
         )
     return detections
+
+
+def detect_with_overlay(
+    image_path: Path,
+    image_id: str,
+    out_dir: Path,
+    prompt: str = PROMPT,
+) -> tuple[list[Detection], Path]:
+    """Detect + render a visual overlay with bounding boxes drawn on."""
+    detections = detect(image_path, image_id, out_dir, prompt=prompt)
+    overlay = Image.open(image_path).convert("RGB")
+    draw = ImageDraw.Draw(overlay, "RGBA")
+    for det in detections:
+        draw.rectangle(det.bbox, outline=(255, 60, 60, 255), width=4)
+        draw.text(
+            (det.bbox[0] + 6, det.bbox[1] + 6),
+            f"{det.label} {det.score:.2f} · {det.severity}",
+            fill=(255, 255, 255, 255),
+        )
+    overlay_path = out_dir / "overlay.jpg"
+    overlay.save(overlay_path, format="JPEG", quality=88)
+    return detections, overlay_path
 
 
 def encode_clean_jpeg(crop_path: Path) -> bytes:
