@@ -84,6 +84,72 @@ ESTERY: list[Waypoint] = [
 
 KAZIMIERZ_CORE: list[Waypoint] = JOZEFA + ESTERY
 
+# --- Wider Old Town streets (inside the Planty ring) ---
+
+BRACKA: list[Waypoint] = [
+    Waypoint(50.0605000, 19.9374000, "Bracka @ Rynek"),
+    Waypoint(50.0598500, 19.9369000, "Bracka mid"),
+    Waypoint(50.0592000, 19.9364000, "Bracka @ Franciszkańska"),
+]
+
+SIENNA: list[Waypoint] = [
+    Waypoint(50.0613000, 19.9389000, "Sienna @ Rynek"),
+    Waypoint(50.0613500, 19.9400000, "Sienna mid"),
+    Waypoint(50.0614000, 19.9411000, "Sienna @ Planty"),
+]
+
+MIKOLAJSKA: list[Waypoint] = [
+    Waypoint(50.0617000, 19.9402000, "Mikołajska @ Mały Rynek"),
+    Waypoint(50.0623000, 19.9407000, "Mikołajska mid"),
+    Waypoint(50.0629000, 19.9412000, "Mikołajska @ Planty"),
+]
+
+SW_ANNY: list[Waypoint] = [
+    Waypoint(50.0623000, 19.9367000, "św. Anny @ Rynek"),
+    Waypoint(50.0628000, 19.9354000, "św. Anny mid"),
+    Waypoint(50.0633000, 19.9341000, "św. Anny @ Planty"),
+]
+
+REFORMACKA: list[Waypoint] = [
+    Waypoint(50.0656000, 19.9354000, "Reformacka @ św. Marka"),
+    Waypoint(50.0651000, 19.9344000, "Reformacka @ św. Tomasza"),
+    Waypoint(50.0646000, 19.9334000, "Reformacka @ Szczepańska"),
+]
+
+SLAWKOWSKA: list[Waypoint] = [
+    Waypoint(50.0633000, 19.9389000, "Sławkowska @ Rynek"),
+    Waypoint(50.0642000, 19.9383000, "Sławkowska mid"),
+    Waypoint(50.0651000, 19.9377000, "Sławkowska @ Pijarska"),
+]
+
+SW_TOMASZA: list[Waypoint] = [
+    Waypoint(50.0639000, 19.9385000, "św. Tomasza @ Floriańska"),
+    Waypoint(50.0642000, 19.9376000, "św. Tomasza mid"),
+    Waypoint(50.0645000, 19.9367000, "św. Tomasza @ Sławkowska"),
+]
+
+SW_JANA: list[Waypoint] = [
+    Waypoint(50.0628000, 19.9385000, "św. Jana @ Rynek"),
+    Waypoint(50.0637000, 19.9380000, "św. Jana mid"),
+    Waypoint(50.0646000, 19.9375000, "św. Jana @ św. Marka"),
+]
+
+# Wide Old Town = all named streets we cover, minus Karmelicka (already walked).
+WIDE_OLD_TOWN_ROUTES = [
+    ("florianska", FLORIANSKA),
+    ("szewska", SZEWSKA),
+    ("grodzka", GRODZKA),
+    ("krupnicza", KRUPNICZA),
+    ("bracka", BRACKA),
+    ("sienna", SIENNA),
+    ("mikolajska", MIKOLAJSKA),
+    ("sw-anny", SW_ANNY),
+    ("reformacka", REFORMACKA),
+    ("slawkowska", SLAWKOWSKA),
+    ("sw-tomasza", SW_TOMASZA),
+    ("sw-jana", SW_JANA),
+]
+
 ROUTES: dict[str, list[Waypoint]] = {
     "karmelicka": KARMELICKA,
     "krolewska": KROLEWSKA,
@@ -95,6 +161,14 @@ ROUTES: dict[str, list[Waypoint]] = {
     "jozefa": JOZEFA,
     "estery": ESTERY,
     "kazimierz": KAZIMIERZ_CORE,
+    "bracka": BRACKA,
+    "sienna": SIENNA,
+    "mikolajska": MIKOLAJSKA,
+    "sw-anny": SW_ANNY,
+    "reformacka": REFORMACKA,
+    "slawkowska": SLAWKOWSKA,
+    "sw-tomasza": SW_TOMASZA,
+    "sw-jana": SW_JANA,
     "all": (
         KARMELICKA + KROLEWSKA + FLORIANSKA + SZEWSKA + GRODZKA
         + KRUPNICZA + KAZIMIERZ_CORE

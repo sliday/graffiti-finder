@@ -61,7 +61,13 @@ class StoredDetection:
 
 def open_store(path: Path) -> sqlite3.Connection:
     path.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(path)
+    conn = sqlite3.connect(path, timeout=30)
+    # WAL mode allows concurrent reads + a single writer with much less
+    # blocking — the parallel walker fan-out hits the store from several
+    # processes at once.
+    conn.execute("PRAGMA journal_mode=WAL")
+    conn.execute("PRAGMA synchronous=NORMAL")
+    conn.execute("PRAGMA busy_timeout=10000")
     conn.executescript(TABLE_DDL)
     _migrate(conn)
     conn.executescript(INDEX_DDL)
