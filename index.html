@@ -90,11 +90,16 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
     <p class="lede">Walk Karmelicka and Królewska through Mapillary. Find graffiti on walls with a local vision model. File anonymous reports to the city's Survey123 endpoint. No camera in hand, no name on the form, no permission asked.</p>
 
     <div class="meta">
-      <div><b>Status</b>materials gathered · detector tuning</div>
-      <div><b>Corridor</b>Karmelicka + Królewska</div>
-      <div><b>Imagery</b>193 frames, mostly 2024+</div>
-      <div><b>Form</b>Gravvitti_v_1 / WBIZK_UMK</div>
+      <div><b>Status</b>12 routes walked · 367 form-ready entries</div>
+      <div><b>Corridor</b>Old Town + Kazimierz, parallel SAM3+CLIP</div>
+      <div><b>Imagery</b>Mapillary, 2022+</div>
+      <div><b>Form</b>Gravvitti_v_1 / WBIZK_UMK · no live submits</div>
     </div>
+    <p style="margin:24px 0 0">
+      <a href="demo/map.html" style="background:var(--accent);color:#0d0d10;padding:8px 14px;border-radius:4px;font-family:var(--mono);font-size:13px;border:none;font-weight:600">→ open interactive map (367 pins)</a>
+      &nbsp;
+      <a href="https://docs.google.com/spreadsheets/d/1l36rLrI9z6DD4P0DYlGZGV1_09FTkXLrjRnDlMn9OUc/edit" style="font-family:var(--mono);font-size:13px">Google Sheet (367 rows)</a>
+    </p>
 
     <ol class="toc">
       <li><span class="num">01</span> <a href="#why">Why a robot walks the street</a></li>
@@ -329,16 +334,27 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
 <section id="materials">
   <div class="wrap">
     <h2>Materials ready for the form.</h2>
-    <p class="kicker">16 real graffiti tags found across two Krakow hotspots: the Karmelicka/Czysta corner in Stare Miasto, and the Dajwór block in Kazimierz. Each row below is one form submission, queued in <code>store.sqlite</code> and ready for either manual filing or supervised batch send.</p>
+    <p class="kicker"><b>367 form-ready entries across 56 unique addresses in Old Town and Kazimierz.</b> Each row below is one form submission, queued in <code>store.sqlite</code> and ready for either manual filing or supervised batch send. Nothing submitted to the city.</p>
 
+    <h3>Top 8 hotspots by detections</h3>
     <table class="spec">
-      <tr><th>address</th><th>district</th><th>rejon SM</th><th>detections</th></tr>
-      <tr><td>Czysta 1, 31-121 (Karmelicka corner)</td><td>Stare Miasto</td><td>I/07</td><td><b>≥ 30</b></td></tr>
-      <tr><td>Dajwór 19, 31-052 (Kazimierz)</td><td>Stare Miasto</td><td>I/19</td><td><b>11</b></td></tr>
-      <tr><td>Dajwór 14, 31-052 (Kazimierz)</td><td>Stare Miasto</td><td>I/19</td><td><b>4</b></td></tr>
-      <tr><td>Other corridor frames</td><td>Stare Miasto</td><td>varies</td><td><b>9</b></td></tr>
+      <tr><th>#</th><th>address</th><th>district</th></tr>
+      <tr><td><b>45</b></td><td>Dolnych Młynów 9, 31-124</td><td>Stare Miasto · I/07</td></tr>
+      <tr><td><b>33</b></td><td>Czysta 1, 31-121 <small style="color:var(--mute)">(Bar Mleczny Górnik corner)</small></td><td>Stare Miasto · I/07</td></tr>
+      <tr><td><b>30</b></td><td>Kochanowskiego 14, 31-127</td><td>Stare Miasto · I/07</td></tr>
+      <tr><td><b>27</b></td><td>Dolnych Młynów 7, 31-124</td><td>Stare Miasto · I/07</td></tr>
+      <tr><td><b>19</b></td><td>Kochanowskiego 24, 31-127</td><td>Stare Miasto · I/07</td></tr>
+      <tr><td><b>16</b></td><td>Kochanowskiego 12, 31-127</td><td>Stare Miasto · I/07</td></tr>
+      <tr><td><b>15</b></td><td>Kochanowskiego 22, 31-127</td><td>Stare Miasto · I/07</td></tr>
+      <tr><td><b>14</b></td><td>Michałowskiego 13, 31-126</td><td>Stare Miasto · I/07</td></tr>
     </table>
-    <p style="color:var(--mute);font-size:14px"><b>54 form-ready entries total</b>, after switch to the SAM3 + CLIP hybrid pipeline. Latest <a href="https://docs.google.com/spreadsheets/d/1We6lNZOk_7uIYYmULFAyKGwVaWLZu0NdqBEjv82fwDU/edit">Google Sheet</a>.</p>
+    <p style="color:var(--mute);font-size:14px">
+      The Krupnicza walk surfaced an unbroken graffiti corridor along
+      <b>Dolnych Młynów</b> and <b>Kochanowskiego</b> — cross-streets that the
+      Karmelicka sample never reached. Five distinct addresses in that block
+      each carry 15+ tags. Latest
+      <a href="https://docs.google.com/spreadsheets/d/1l36rLrI9z6DD4P0DYlGZGV1_09FTkXLrjRnDlMn9OUc/edit">Google Sheet (367 rows)</a>.
+    </p>
 
     <p>Pipeline that produced this list: Mapillary corridor walk → GroundingDINO with score≥0.20 → aspect/std geometric gates → CLIP second-stage classifier rejecting road signs, lamp posts, windows, and trees → <code>pulldata()</code>-equivalent civic enrichment → reverse-geocode against Krakow's Lokalizator. Zero false positives in this batch.</p>
 
@@ -422,33 +438,39 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
     <h3>Shareable artifacts</h3>
     <p>For manual filing or hand-off:</p>
     <ul>
-      <li><a href="https://docs.google.com/spreadsheets/d/1rfIfqtIFMm0GykDxiUThcnkmo4Aa77ZC0lc3ucfLVfc/edit">Google Sheet</a> — 16 form-ready rows with addresses, exported via <code>gws sheets</code>. Sort, filter, paste-into-form.</li>
-      <li><code>data/runs/20260527-183321/proposed.jsonl</code> — raw JSON, one entry per line, full payload + enrichment per detection.</li>
-      <li><code>data/queue_gallery.html</code> — overlay images and crop thumbnails for all 5 hotspot frames.</li>
-      <li>Crop JPEGs in <code>data/images/crops/</code> — EXIF-stripped equivalents ready for attachment upload.</li>
+      <li><a href="demo/map.html"><b>demo/map.html</b></a> — interactive Leaflet map with 367 pins, severity colour-coding, heatmap toggle, per-address side panel. Click an address to fly there.</li>
+      <li><a href="https://docs.google.com/spreadsheets/d/1l36rLrI9z6DD4P0DYlGZGV1_09FTkXLrjRnDlMn9OUc/edit">Google Sheet (367 rows)</a> — full table with address, district, rejon SM, building/parcel IDs, severity, score, crop path.</li>
+      <li><code>data/runs/20260528-132229/proposed.jsonl</code> — raw JSON, one entry per line.</li>
+      <li><code>data/queue_gallery.html</code> — per-source-image overlay JPEGs.</li>
+      <li><code>data/images/crops/</code> — EXIF-stripped crops ready for attachment upload.</li>
     </ul>
 
     <h3>Streets walked vs detections found</h3>
+    <p>12 Old Town routes walked end-to-end via parallel SAM3+CLIP (3 workers, 16 min wall time). Plus the earlier Karmelicka and Kazimierz walks.</p>
     <table class="spec">
-      <tr><th>route</th><th>candidates</th><th>walked</th><th>new detections</th><th>note</th></tr>
-      <tr><td>Karmelicka</td><td>193</td><td>30</td><td>5</td><td>Czysta 1 corner (Bar Mleczny)</td></tr>
-      <tr><td>Floriańska</td><td>155</td><td>25</td><td>0</td><td>tourist axis, well-maintained</td></tr>
-      <tr><td>Szewska</td><td>—</td><td>20</td><td>0</td><td>clean</td></tr>
-      <tr><td>Krupnicza</td><td>—</td><td>20</td><td>0</td><td>clean</td></tr>
-      <tr><td>Kazimierz (Józefa+Estery)</td><td>—</td><td>30</td><td>11</td><td>Dajwór block — known street-art corner</td></tr>
+      <tr><th>route</th><th>detections kept</th><th>note</th></tr>
+      <tr><td>Karmelicka</td><td><b>117</b></td><td>full corridor, Bar Mleczny corner + 8 sub-hotspots</td></tr>
+      <tr><td>Krupnicza</td><td><b>120</b></td><td>new big hotspot zone — Dolnych Młynów + Kochanowskiego cross-streets</td></tr>
+      <tr><td>Floriańska</td><td><b>53</b></td><td>surprise — main pedestrian axis had tags after all</td></tr>
+      <tr><td>Kazimierz (Józefa + Estery)</td><td>16</td><td>Dajwór block, classic street-art corner</td></tr>
+      <tr><td>św. Anny</td><td>5</td><td>side passage</td></tr>
+      <tr><td>św. Jana</td><td>4</td><td>side passage</td></tr>
+      <tr><td>św. Tomasza</td><td>3</td><td>side passage</td></tr>
+      <tr><td>Szewska · Mikołajska</td><td>1 each</td><td>nearly clean</td></tr>
+      <tr><td>Grodzka · Sienna · Bracka · Reformacka · Sławkowska</td><td>0 each</td><td>main-axis pedestrian streets — clean</td></tr>
     </table>
-    <p>Result matches lived experience of the city: the main pedestrian streets stay clean, the side blocks and old-quarter corners accumulate paint.</p>
+    <p>The pattern is now obvious from real data: tourist-axis pedestrian streets (Grodzka, Bracka, Sławkowska, Sienna, Reformacka) stay clean. Side corridors (Krupnicza, Karmelicka, Dolnych Młynów, Kochanowskiego) and old-quarter blocks (Dajwór) accumulate the paint.</p>
 
     <h3>Detector evolution: what we ended up with</h3>
     <table class="spec">
-      <tr><th>stage</th><th>detections (Karmelicka + Kazimierz, 64 cached frames)</th></tr>
-      <tr><td>GroundingDINO raw, score≥0.20</td><td>~70</td></tr>
-      <tr><td>+ aspect ≥ 0.45, std ≥ 16, area gates</td><td>~30</td></tr>
-      <tr><td>+ CLIP 10-label classifier</td><td><b>20</b> form-ready (DINO path)</td></tr>
-      <tr><td>SAM3 (mlx) via Python 3.13 sidecar, score≥0.50</td><td>~110</td></tr>
-      <tr><td>+ same area gates + CLIP filter</td><td><b>54</b> form-ready (SAM3 hybrid, current default)</td></tr>
+      <tr><th>stage</th><th>detections after parallel wide-Old-Town walk</th></tr>
+      <tr><td>GroundingDINO raw, score≥0.20 (initial)</td><td>noisy: lamp posts, road signs included</td></tr>
+      <tr><td>+ aspect ≥ 0.45, std ≥ 16, area gates</td><td>~120</td></tr>
+      <tr><td>+ CLIP 10-label classifier (DINO path)</td><td><b>20</b> across the original sample</td></tr>
+      <tr><td>SAM3 (mlx) via Python 3.13 sidecar, score≥0.50</td><td>~600 raw</td></tr>
+      <tr><td>+ same area gates + CLIP filter + pHash dedup</td><td><b>367</b> form-ready (SAM3 hybrid, current default)</td></tr>
     </table>
-    <p>SAM3 has higher recall and ships tighter bounding boxes; CLIP catches its sticker / window / sign mis-classifications. The combined pipeline runs SAM3 on Apple Silicon MLX (~650 ms per image) plus CLIP on each surviving crop (~200 ms). Sidecar architecture: <code>vendor/mlx_sam3</code> has its own Python 3.13 + mlx uv env that the main project (3.12 + torch) shells out to via JSON on stdout.</p>
+    <p>SAM3 has higher recall and ships tighter bounding boxes; CLIP catches its sticker / window / sign mis-classifications. The combined pipeline runs SAM3 on Apple Silicon MLX (~650 ms per image) plus CLIP on each surviving crop (~200 ms). Sidecar architecture: <code>vendor/mlx_sam3</code> has its own Python 3.13 + mlx uv env that the main project (3.12 + torch) shells out to via JSON on stdout. Parallelised via <code>ProcessPoolExecutor</code> (3 workers on M-series — GPU contention dominates above that despite the 128 GB RAM available).</p>
   </div>
 </section>
 
