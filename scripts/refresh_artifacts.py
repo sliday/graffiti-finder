@@ -34,7 +34,10 @@ def main() -> int:
     ap.add_argument("--no-viz", action="store_true", help="skip per-image overlay regen (slow)")
     args = ap.parse_args()
 
-    _run(["uv", "run", "krakow-clean", "mock", "--limit", "500"])
+    # --limit must exceed the queue size; otherwise the exported Sheet
+    # silently undercounts. 5000 leaves plenty of headroom for whole-city
+    # walks (current queue is in the high hundreds).
+    _run(["uv", "run", "krakow-clean", "mock", "--limit", "5000"])
     _run(["uv", "run", "python", "scripts/build_map.py"])
 
     if not args.no_viz:

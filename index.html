@@ -94,15 +94,15 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
     <p class="lede">Walk Karmelicka and Królewska through Mapillary. Find graffiti on walls with a local vision model. File anonymous reports to the city's Survey123 endpoint. No camera in hand, no name on the form, no permission asked.</p>
 
     <div class="meta">
-      <div><b>Status</b>80 grid tiles walked · 471 freshest-per-wall entries</div>
+      <div><b>Status</b>80 grid tiles walked · 622 freshest-per-wall entries</div>
       <div><b>Coverage</b>Inner Kraków, 8 districts, parallel SAM3+CLIP</div>
       <div><b>Imagery</b>Mapillary 2023-2026, freshest-per-spot only</div>
       <div><b>Form</b>Gravvitti_v_1 / WBIZK_UMK · no live submits</div>
     </div>
     <p style="margin:24px 0 0">
-      <a href="demo/map.html" style="background:var(--accent);color:#0d0d10;padding:8px 14px;border-radius:4px;font-family:var(--mono);font-size:13px;border:none;font-weight:600">→ open interactive map (471 pins)</a>
+      <a href="demo/map.html" style="background:var(--accent);color:#0d0d10;padding:8px 14px;border-radius:4px;font-family:var(--mono);font-size:13px;border:none;font-weight:600">→ open interactive map (622 pins)</a>
       &nbsp;
-      <a href="https://docs.google.com/spreadsheets/d/1H29lvL_yJ7aGDROIOKKn1SPM4Upv38q8Lq5Lg8gdXA4/edit" style="font-family:var(--mono);font-size:13px">Google Sheet (471 rows)</a>
+      <a href="https://docs.google.com/spreadsheets/d/1LsUawp4Lc-li1RGb4MdS1hpTZmSTKD4xYqW_Ig7dDPU/edit" style="font-family:var(--mono);font-size:13px">Google Sheet (622 rows)</a>
     </p>
     <p style="margin:14px 0 0;font-family:var(--mono);font-size:12px;color:var(--mute)">
       Live: <a href="https://krakow-graffiti.pages.dev/">krakow-graffiti.pages.dev</a> ·
@@ -146,7 +146,7 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
     <div class="gallery">
       <figure><img src="data/samples/sample_00_607703458744288.jpg" alt="Planty Park area"><figcaption><b>Planty south</b>50.06298, 19.93357<br>2025-03-06</figcaption></figure>
       <figure><img src="data/samples/sample_01_929218989255028.jpg" alt="Karmelicka mid"><figcaption><b>Karmelicka mid</b>50.06403, 19.92764<br>2024-10-06</figcaption></figure>
-      <figure><img src="data/samples/sample_02_792471472888873.jpg" alt="Karmelicka frontage"><figcaption><b>Karmelicka frontage</b>50.06384, 19.92772<br>2024-10-06</figcaption></figure>
+      <figure><img src="data/samples/sample_02_792622472888873.jpg" alt="Karmelicka frontage"><figcaption><b>Karmelicka frontage</b>50.06384, 19.92772<br>2024-10-06</figcaption></figure>
       <figure><img src="data/samples/sample_03_1269220801098108.jpg" alt="Karmelicka sidewalk"><figcaption><b>Karmelicka sidewalk</b>50.06361, 19.92793<br>2024-10-06</figcaption></figure>
       <figure><img src="data/samples/sample_04_1729574321206151.jpg" alt="Karmelicka wall scribbles visible"><figcaption><b>Walls with scribbles</b>50.06350, 19.92935<br>2024-09-07</figcaption></figure>
       <figure><img src="data/samples/sample_05_864047762354004.jpg" alt="Karmelicka opposite"><figcaption><b>Opposite side</b>50.06369, 19.92920<br>2024-09-07</figcaption></figure>
@@ -342,19 +342,23 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
 <section id="materials">
   <div class="wrap">
     <h2>Materials ready for the form.</h2>
-    <p class="kicker"><b>471 freshest-per-wall entries spread across 8 Kraków districts.</b> Each row is the most recent Mapillary frame showing graffiti at that spot — older frames at the same wall got pruned (the paint may have been cleaned between captures). Queued in <code>store.sqlite</code>, ready for either manual filing or supervised batch send. Nothing submitted to the city.</p>
+    <p class="kicker"><b>622 freshest-per-wall entries spread across 8 Kraków districts.</b> Each row is the most recent Mapillary frame showing graffiti at that spot — older frames at the same wall got pruned (the paint may have been cleaned between captures). Queued in <code>store.sqlite</code>, ready for either manual filing or supervised batch send. Nothing submitted to the city.</p>
 
     <h3>Coverage by district</h3>
     <table class="spec">
       <tr><th>district</th><th>detections</th></tr>
-      <tr><td>Stare Miasto</td><td><b>256</b></td></tr>
+      <tr><td>Stare Miasto</td><td><b>264</b></td></tr>
+      <tr><td>Grzegórzki</td><td><b>93</b></td></tr>
       <tr><td>Krowodrza</td><td><b>84</b></td></tr>
       <tr><td>Prądnik Czerwony</td><td><b>45</b></td></tr>
-      <tr><td>Grzegórzki</td><td><b>28</b></td></tr>
-      <tr><td>Podgórze</td><td><b>27</b></td></tr>
+      <tr><td>Podgórze</td><td><b>42</b></td></tr>
+      <tr><td>Bieńczyce <small style="color:var(--mute)">(new)</small></td><td><b>25</b></td></tr>
+      <tr><td>Nowa Huta <small style="color:var(--mute)">(new)</small></td><td><b>24</b></td></tr>
       <tr><td>Zwierzyniec</td><td><b>16</b></td></tr>
       <tr><td>Dębniki</td><td><b>11</b></td></tr>
+      <tr><td>Wzgórza Krzesławickie <small style="color:var(--mute)">(new)</small></td><td><b>11</b></td></tr>
       <tr><td>Prądnik Biały</td><td><b>4</b></td></tr>
+      <tr><td>Czyżyny <small style="color:var(--mute)">(new)</small></td><td><b>3</b></td></tr>
     </table>
 
     <p style="color:var(--mute);font-size:14px">
@@ -386,7 +390,7 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
       <b>Dolnych Młynów</b> and <b>Kochanowskiego</b> — cross-streets that the
       Karmelicka sample never reached. Five distinct addresses in that block
       each carry 15+ tags. Latest
-      <a href="https://docs.google.com/spreadsheets/d/1H29lvL_yJ7aGDROIOKKn1SPM4Upv38q8Lq5Lg8gdXA4/edit">Google Sheet (471 rows)</a>.
+      <a href="https://docs.google.com/spreadsheets/d/1LsUawp4Lc-li1RGb4MdS1hpTZmSTKD4xYqW_Ig7dDPU/edit">Google Sheet (622 rows)</a>.
     </p>
 
     <p>Pipeline that produced this list: Mapillary corridor walk → GroundingDINO with score≥0.20 → aspect/std geometric gates → CLIP second-stage classifier rejecting road signs, lamp posts, windows, and trees → <code>pulldata()</code>-equivalent civic enrichment → reverse-geocode against Krakow's Lokalizator. Zero false positives in this batch.</p>
@@ -464,15 +468,15 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
     <h3>The Kazimierz hotspot</h3>
     <p>Dajwór 19 (corner with Józefa) — a weathered building covered in stickers, scribbles, and tags. Six detections survive the filter chain, including the "ofles" tag, the black scribble cluster around the right door, and the sticker bands.</p>
     <div class="figure">
-      <img src="data/queue_viz/453477123994712/overlay.jpg" alt="Dajwór 19 — six graffiti detections">
-      <figcaption>Mapillary image 453477123994712 at 50.05101, 19.94942. Six boxes from GroundingDINO + CLIP, all passing the second-stage classifier.</figcaption>
+      <img src="data/queue_viz/453477123996222/overlay.jpg" alt="Dajwór 19 — six graffiti detections">
+      <figcaption>Mapillary image 453477123996222 at 50.05101, 19.94942. Six boxes from GroundingDINO + CLIP, all passing the second-stage classifier.</figcaption>
     </div>
 
     <h3>Shareable artifacts</h3>
     <p>For manual filing or hand-off:</p>
     <ul>
-      <li><a href="demo/map.html"><b>demo/map.html</b></a> — interactive Leaflet map with 471 pins across 8 districts, severity colour-coding, heatmap toggle, per-address side panel, GSV verification link per popup. Click an address to fly there.</li>
-      <li><a href="https://docs.google.com/spreadsheets/d/1H29lvL_yJ7aGDROIOKKn1SPM4Upv38q8Lq5Lg8gdXA4/edit">Google Sheet (471 rows)</a> — full table with capture date, address, district, rejon SM, building/parcel IDs, severity, score, crop path.</li>
+      <li><a href="demo/map.html"><b>demo/map.html</b></a> — interactive Leaflet map with 622 pins across 8 districts, severity colour-coding, heatmap toggle, per-address side panel, GSV verification link per popup. Click an address to fly there.</li>
+      <li><a href="https://docs.google.com/spreadsheets/d/1LsUawp4Lc-li1RGb4MdS1hpTZmSTKD4xYqW_Ig7dDPU/edit">Google Sheet (622 rows)</a> — full table with capture date, address, district, rejon SM, building/parcel IDs, severity, score, crop path.</li>
       <li><code>data/runs/20260528-132229/proposed.jsonl</code> — raw JSON, one entry per line.</li>
       <li><code>data/queue_gallery.html</code> — per-source-image overlay JPEGs.</li>
       <li><code>data/images/crops/</code> — EXIF-stripped crops ready for attachment upload.</li>
@@ -501,7 +505,7 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
       <tr><td>+ aspect ≥ 0.45, std ≥ 16, area gates</td><td>~120</td></tr>
       <tr><td>+ CLIP 10-label classifier (DINO path)</td><td><b>20</b> across the original sample</td></tr>
       <tr><td>SAM3 (mlx) via Python 3.13 sidecar, score≥0.50</td><td>~600 raw</td></tr>
-      <tr><td>+ same area gates + CLIP filter + pHash dedup + freshest-per-wall</td><td><b>471</b> form-ready across 8 districts (SAM3 hybrid, current default)</td></tr>
+      <tr><td>+ same area gates + CLIP filter + pHash dedup + freshest-per-wall</td><td><b>622</b> form-ready across 8 districts (SAM3 hybrid, current default)</td></tr>
     </table>
     <p>SAM3 has higher recall and ships tighter bounding boxes; CLIP catches its sticker / window / sign mis-classifications. The combined pipeline runs SAM3 on Apple Silicon MLX (~650 ms per image) plus CLIP on each surviving crop (~200 ms). Sidecar architecture: <code>vendor/mlx_sam3</code> has its own Python 3.13 + mlx uv env that the main project (3.12 + torch) shells out to via JSON on stdout. Parallelised via <code>ProcessPoolExecutor</code> (3 workers on M-series — GPU contention dominates above that despite the 128 GB RAM available).</p>
   </div>
@@ -522,8 +526,8 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
     <h3>Dajwór 19 — Kazimierz street-art block</h3>
     <p>Five detections survive on this frame, including the "ofles" tag at the top-right and the sticker cluster around the doorway. Eleven detections on the same address across two camera positions.</p>
     <div class="figure">
-      <iframe src="https://www.mapillary.com/embed?image_key=453477123994712&style=photo" allowfullscreen style="width:100%;height:520px;border:1px solid var(--line);border-radius:8px"></iframe>
-      <figcaption>Mapillary image 453477123994712 at 50.05101, 19.94942 · Kazimierz</figcaption>
+      <iframe src="https://www.mapillary.com/embed?image_key=453477123996222&style=photo" allowfullscreen style="width:100%;height:520px;border:1px solid var(--line);border-radius:8px"></iframe>
+      <figcaption>Mapillary image 453477123996222 at 50.05101, 19.94942 · Kazimierz</figcaption>
     </div>
 
     <h3>Annotated overlays</h3>
@@ -533,8 +537,8 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
       <figcaption>3689129454680282 · 13 boxes via SAM3+CLIP</figcaption>
     </div>
     <div class="figure">
-      <img src="data/queue_viz/453477123994712/overlay.jpg" alt="Dajwór 19 — 5 SAM3 boxes">
-      <figcaption>453477123994712 · 5 boxes via SAM3+CLIP</figcaption>
+      <img src="data/queue_viz/453477123996222/overlay.jpg" alt="Dajwór 19 — 5 SAM3 boxes">
+      <figcaption>453477123996222 · 5 boxes via SAM3+CLIP</figcaption>
     </div>
 
     <h3>Google Street View, optionally</h3>
