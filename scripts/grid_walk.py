@@ -41,6 +41,12 @@ BBOXES = {
     "kazimierz":      ((50.048, 19.940), (50.060, 19.952)),
     "podgorze":       ((50.038, 19.940), (50.060, 19.965)),
     "train-station":  ((50.066, 19.943), (50.080, 19.960)),
+    # East district: Nowa Huta — Plac Centralny + housing estates +
+    # ArcelorMittal industrial zone (graffiti-heavy).
+    "nowa-huta":      ((50.060, 20.000), (50.100, 20.090)),
+    # Industrial / post-factory rail corridor on the south bank between
+    # Most Kotlarski and Płaszów. Includes Schindler Factory area.
+    "zablocie":       ((50.040, 19.945), (50.060, 19.985)),
 }
 
 TILE_DEG = 0.009  # Mapillary bbox cap is 0.01°, leave slack
