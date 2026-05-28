@@ -46,7 +46,9 @@ cat > "$PUBLIC/_headers" <<'EOF'
 EOF
 
 cat > "$PUBLIC/_redirects" <<'EOF'
-/map  /demo/map.html  301
+/map        /demo/map.html  301
+/demo       /demo/map.html  301
+/demo/      /demo/map.html  301
 EOF
 
 # Robots: allow indexing the long-read; block the heavy crop directories.

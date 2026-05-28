@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <title>clean-krakow — autonomous graffiti reporter</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<base href="/">
+<!-- <base> anchors every relative URL at the site root so the page renders
+     correctly even if Cloudflare Pages serves it from a sub-path. -->
+
 <meta name="description" content="A small civic robot that walks Karmelicka and Królewska through Mapillary, finds graffiti on walls with a local vision model, and files anonymous Survey123 reports to the Krakow city portal.">
 <style>
 :root{
@@ -382,7 +386,7 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
       <b>Dolnych Młynów</b> and <b>Kochanowskiego</b> — cross-streets that the
       Karmelicka sample never reached. Five distinct addresses in that block
       each carry 15+ tags. Latest
-      <a href="https://docs.google.com/spreadsheets/d/1l36rLrI9z6DD4P0DYlGZGV1_09FTkXLrjRnDlMn9OUc/edit">Google Sheet (367 rows)</a>.
+      <a href="https://docs.google.com/spreadsheets/d/1H29lvL_yJ7aGDROIOKKn1SPM4Upv38q8Lq5Lg8gdXA4/edit">Google Sheet (471 rows)</a>.
     </p>
 
     <p>Pipeline that produced this list: Mapillary corridor walk → GroundingDINO with score≥0.20 → aspect/std geometric gates → CLIP second-stage classifier rejecting road signs, lamp posts, windows, and trees → <code>pulldata()</code>-equivalent civic enrichment → reverse-geocode against Krakow's Lokalizator. Zero false positives in this batch.</p>
@@ -467,8 +471,8 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
     <h3>Shareable artifacts</h3>
     <p>For manual filing or hand-off:</p>
     <ul>
-      <li><a href="demo/map.html"><b>demo/map.html</b></a> — interactive Leaflet map with 367 pins, severity colour-coding, heatmap toggle, per-address side panel. Click an address to fly there.</li>
-      <li><a href="https://docs.google.com/spreadsheets/d/1l36rLrI9z6DD4P0DYlGZGV1_09FTkXLrjRnDlMn9OUc/edit">Google Sheet (367 rows)</a> — full table with address, district, rejon SM, building/parcel IDs, severity, score, crop path.</li>
+      <li><a href="demo/map.html"><b>demo/map.html</b></a> — interactive Leaflet map with 471 pins across 8 districts, severity colour-coding, heatmap toggle, per-address side panel, GSV verification link per popup. Click an address to fly there.</li>
+      <li><a href="https://docs.google.com/spreadsheets/d/1H29lvL_yJ7aGDROIOKKn1SPM4Upv38q8Lq5Lg8gdXA4/edit">Google Sheet (471 rows)</a> — full table with capture date, address, district, rejon SM, building/parcel IDs, severity, score, crop path.</li>
       <li><code>data/runs/20260528-132229/proposed.jsonl</code> — raw JSON, one entry per line.</li>
       <li><code>data/queue_gallery.html</code> — per-source-image overlay JPEGs.</li>
       <li><code>data/images/crops/</code> — EXIF-stripped crops ready for attachment upload.</li>
@@ -497,7 +501,7 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
       <tr><td>+ aspect ≥ 0.45, std ≥ 16, area gates</td><td>~120</td></tr>
       <tr><td>+ CLIP 10-label classifier (DINO path)</td><td><b>20</b> across the original sample</td></tr>
       <tr><td>SAM3 (mlx) via Python 3.13 sidecar, score≥0.50</td><td>~600 raw</td></tr>
-      <tr><td>+ same area gates + CLIP filter + pHash dedup</td><td><b>367</b> form-ready (SAM3 hybrid, current default)</td></tr>
+      <tr><td>+ same area gates + CLIP filter + pHash dedup + freshest-per-wall</td><td><b>471</b> form-ready across 8 districts (SAM3 hybrid, current default)</td></tr>
     </table>
     <p>SAM3 has higher recall and ships tighter bounding boxes; CLIP catches its sticker / window / sign mis-classifications. The combined pipeline runs SAM3 on Apple Silicon MLX (~650 ms per image) plus CLIP on each surviving crop (~200 ms). Sidecar architecture: <code>vendor/mlx_sam3</code> has its own Python 3.13 + mlx uv env that the main project (3.12 + torch) shells out to via JSON on stdout. Parallelised via <code>ProcessPoolExecutor</code> (3 workers on M-series — GPU contention dominates above that despite the 128 GB RAM available).</p>
   </div>
