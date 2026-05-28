@@ -5,6 +5,8 @@ __pycache__/
 .pytest_cache/
 data/store.sqlite
 data/store.sqlite-journal
+data/store.sqlite-wal
+data/store.sqlite-shm
 data/images/
 data/runs/
 data/samples/*.jpg
