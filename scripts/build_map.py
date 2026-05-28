@@ -232,7 +232,7 @@ function popupNode(p) {{
               document.createElement('br'),
               field('', `${{p.dzielnica}} · ${{p.rejon_sm}}`),
               document.createElement('br'),
-              field('captured:', p.captured_at),
+              field('captured:', `${{p.captured_at}}  (Mapillary)`),
               document.createElement('br'));
   if (p.thumb) {{
     const img = document.createElement('img');
@@ -241,6 +241,26 @@ function popupNode(p) {{
     root.appendChild(img);
   }}
   root.appendChild(field('img', p.image_id));
+
+  // Verification links — open in a new tab. URL-based, no API key, no
+  // download or analysis. ToS-clean way to spot-check a fresher view.
+  const linksRow = document.createElement('div');
+  linksRow.style.marginTop = '8px';
+  const gsv = document.createElement('a');
+  gsv.href = `https://www.google.com/maps?q=&layer=c&cbll=${{p.lat}},${{p.lng}}`;
+  gsv.target = '_blank';
+  gsv.rel = 'noopener noreferrer';
+  gsv.textContent = '↗ Google Street View';
+  gsv.style.color = '#7ad6ff';
+  gsv.style.marginRight = '12px';
+  const mly = document.createElement('a');
+  mly.href = `https://www.mapillary.com/app/?lat=${{p.lat}}&lng=${{p.lng}}&z=19&focus=photo&pKey=${{p.image_id}}`;
+  mly.target = '_blank';
+  mly.rel = 'noopener noreferrer';
+  mly.textContent = '↗ Mapillary frame';
+  mly.style.color = '#c9f76f';
+  linksRow.append(gsv, mly);
+  root.appendChild(linksRow);
   return root;
 }}
 

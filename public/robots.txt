@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /data/images/
+Disallow: /data/queue_viz/
