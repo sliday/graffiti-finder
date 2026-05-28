@@ -7,6 +7,11 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
+# Cache-buster: ties asset URLs in the HTML to the current git commit
+# so a redeploy invalidates any 404 the browser cached from an earlier
+# deploy in flight.
+CACHE_BUST="?v=$(git rev-parse --short HEAD 2>/dev/null || date +%s)"
+
 PUBLIC=public
 rm -rf "$PUBLIC"
 mkdir -p "$PUBLIC/data/images/crops" \
@@ -16,7 +21,12 @@ mkdir -p "$PUBLIC/data/images/crops" \
          "$PUBLIC/data/samples" \
          "$PUBLIC/demo"
 
-cp index.html                              "$PUBLIC/"
+# Rewrite asset URLs in index.html with the cache-buster (only relative
+# data/... and demo/map.html refs; external https://… untouched).
+sed -E \
+    -e 's|(src=")(data/[^"?]+)(")|\1\2'"$CACHE_BUST"'\3|g' \
+    -e 's|(href=")(demo/map\.html)(")|\1\2'"$CACHE_BUST"'\3|g' \
+    index.html > "$PUBLIC/index.html"
 cp demo/map.html                           "$PUBLIC/demo/"
 cp data/queue_gallery.html                 "$PUBLIC/data/"
 cp data/samples/gallery.html               "$PUBLIC/data/samples/"

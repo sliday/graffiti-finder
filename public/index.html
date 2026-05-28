@@ -100,7 +100,7 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
       <div><b>Form</b>Gravvitti_v_1 / WBIZK_UMK · no live submits</div>
     </div>
     <p style="margin:24px 0 0">
-      <a href="demo/map.html" style="background:var(--accent);color:#0d0d10;padding:8px 14px;border-radius:4px;font-family:var(--mono);font-size:13px;border:none;font-weight:600">→ open interactive map (622 pins)</a>
+      <a href="demo/map.html?v=9caa7e0" style="background:var(--accent);color:#0d0d10;padding:8px 14px;border-radius:4px;font-family:var(--mono);font-size:13px;border:none;font-weight:600">→ open interactive map (622 pins)</a>
       &nbsp;
       <a href="https://docs.google.com/spreadsheets/d/1LsUawp4Lc-li1RGb4MdS1hpTZmSTKD4xYqW_Ig7dDPU/edit" style="font-family:var(--mono);font-size:13px">Google Sheet (622 rows)</a>
     </p>
@@ -144,14 +144,14 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
     <p>The robot does not hold a camera. Mapillary holds the camera. Open crowdsourced imagery, faces and license plates blurred upstream, sequences dense enough to step through the street one frame at a time. Eight points sampled along Karmelicka, southern end at Planty all the way to Rajska:</p>
 
     <div class="gallery">
-      <figure><img src="data/samples/sample_00_607703458744288.jpg" alt="Planty Park area"><figcaption><b>Planty south</b>50.06298, 19.93357<br>2025-03-06</figcaption></figure>
-      <figure><img src="data/samples/sample_01_929218989255028.jpg" alt="Karmelicka mid"><figcaption><b>Karmelicka mid</b>50.06403, 19.92764<br>2024-10-06</figcaption></figure>
-      <figure><img src="data/samples/sample_02_792622472888873.jpg" alt="Karmelicka frontage"><figcaption><b>Karmelicka frontage</b>50.06384, 19.92772<br>2024-10-06</figcaption></figure>
-      <figure><img src="data/samples/sample_03_1269220801098108.jpg" alt="Karmelicka sidewalk"><figcaption><b>Karmelicka sidewalk</b>50.06361, 19.92793<br>2024-10-06</figcaption></figure>
-      <figure><img src="data/samples/sample_04_1729574321206151.jpg" alt="Karmelicka wall scribbles visible"><figcaption><b>Walls with scribbles</b>50.06350, 19.92935<br>2024-09-07</figcaption></figure>
-      <figure><img src="data/samples/sample_05_864047762354004.jpg" alt="Karmelicka opposite"><figcaption><b>Opposite side</b>50.06369, 19.92920<br>2024-09-07</figcaption></figure>
-      <figure><img src="data/samples/sample_06_1949147672180220.jpg" alt="Karmelicka north of Krupnicza"><figcaption><b>North of Krupnicza</b>50.06409, 19.92911<br>2024-09-07</figcaption></figure>
-      <figure><img src="data/samples/sample_07_1188394959117681.jpg" alt="Karmelicka and Wenecja"><figcaption><b>Karmelicka and Wenecja</b>50.06389, 19.92782<br>2024-09-07</figcaption></figure>
+      <figure><img src="data/samples/sample_00_607703458744288.jpg?v=9caa7e0" alt="Planty Park area"><figcaption><b>Planty south</b>50.06298, 19.93357<br>2025-03-06</figcaption></figure>
+      <figure><img src="data/samples/sample_01_929218989255028.jpg?v=9caa7e0" alt="Karmelicka mid"><figcaption><b>Karmelicka mid</b>50.06403, 19.92764<br>2024-10-06</figcaption></figure>
+      <figure><img src="data/samples/sample_02_792471472888873.jpg?v=9caa7e0" alt="Karmelicka frontage"><figcaption><b>Karmelicka frontage</b>50.06384, 19.92772<br>2024-10-06</figcaption></figure>
+      <figure><img src="data/samples/sample_03_1269220801098108.jpg?v=9caa7e0" alt="Karmelicka sidewalk"><figcaption><b>Karmelicka sidewalk</b>50.06361, 19.92793<br>2024-10-06</figcaption></figure>
+      <figure><img src="data/samples/sample_04_1729574321206151.jpg?v=9caa7e0" alt="Karmelicka wall scribbles visible"><figcaption><b>Walls with scribbles</b>50.06350, 19.92935<br>2024-09-07</figcaption></figure>
+      <figure><img src="data/samples/sample_05_864047762354004.jpg?v=9caa7e0" alt="Karmelicka opposite"><figcaption><b>Opposite side</b>50.06369, 19.92920<br>2024-09-07</figcaption></figure>
+      <figure><img src="data/samples/sample_06_1949147672180220.jpg?v=9caa7e0" alt="Karmelicka north of Krupnicza"><figcaption><b>North of Krupnicza</b>50.06409, 19.92911<br>2024-09-07</figcaption></figure>
+      <figure><img src="data/samples/sample_07_1188394959117681.jpg?v=9caa7e0" alt="Karmelicka and Wenecja"><figcaption><b>Karmelicka and Wenecja</b>50.06389, 19.92782<br>2024-09-07</figcaption></figure>
     </div>
 
     <p>Faces blurred, plates blurred, the rest fairly true to street-level. Some frames look out at Planty Park and pick up nothing but pedestrians and trees. Some look down the corridor and catch a clear wall. Sample 04 has the obvious scribbles on the left-side facade that the detector still has to learn to find.</p>
@@ -396,7 +396,7 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
     <p>Pipeline that produced this list: Mapillary corridor walk → GroundingDINO with score≥0.20 → aspect/std geometric gates → CLIP second-stage classifier rejecting road signs, lamp posts, windows, and trees → <code>pulldata()</code>-equivalent civic enrichment → reverse-geocode against Krakow's Lokalizator. Zero false positives in this batch.</p>
 
     <div class="figure">
-      <img src="data/queue_viz/3689129454680282/overlay.jpg" alt="Bar Mleczny corner — 3 graffiti detections">
+      <img src="data/queue_viz/3689129454680282/overlay.jpg?v=9caa7e0" alt="Bar Mleczny corner — 3 graffiti detections">
       <figcaption>Source image 3689129454680282. Three real graffiti detected: red "GZ" tag (far left), black-paint cluster beside the doorway, and purple "JUMP8" on the central column. CLIP confidence 0.72–0.98 per crop. Lamp post and road sign rejected by the second-stage classifier.</figcaption>
     </div>
 
@@ -405,35 +405,35 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
       <tr><th>id</th><th>crop</th><th>lat / lng</th><th>score · sev · CLIP</th><th>address (geocoded)</th></tr>
       <tr>
         <td>5a1c6da1</td>
-        <td><img src="data/images/crops/3689129454680282_01.jpg" style="max-width:140px;border-radius:4px"></td>
+        <td><img src="data/images/crops/3689129454680282_01.jpg?v=9caa7e0" style="max-width:140px;border-radius:4px"></td>
         <td>50.06390<br>19.92761</td>
         <td>0.32 · minor · 0.91</td>
         <td><b>Czysta 1</b>, 31-121, Kraków<br><span style="color:var(--mute)">Dzielnica I Stare Miasto · rejon SM I/07</span></td>
       </tr>
       <tr>
         <td>25153c1a</td>
-        <td><img src="data/images/crops/1237359060636431_02.jpg" style="max-width:140px;border-radius:4px"></td>
+        <td><img src="data/images/crops/1237359060636431_02.jpg?v=9caa7e0" style="max-width:140px;border-radius:4px"></td>
         <td>50.06393<br>19.92761</td>
         <td>0.24 · moderate · 0.94</td>
         <td><b>Czysta 1</b>, 31-121, Kraków<br><span style="color:var(--mute)">Dzielnica I Stare Miasto · rejon SM I/07</span></td>
       </tr>
       <tr>
         <td>85d19b08</td>
-        <td><img src="data/images/crops/1237359060636431_01.jpg" style="max-width:140px;border-radius:4px"></td>
+        <td><img src="data/images/crops/1237359060636431_01.jpg?v=9caa7e0" style="max-width:140px;border-radius:4px"></td>
         <td>50.06393<br>19.92761</td>
         <td>0.23 · minor · 0.77</td>
         <td><b>Czysta 1</b>, 31-121, Kraków<br><span style="color:var(--mute)">Dzielnica I Stare Miasto · rejon SM I/07</span></td>
       </tr>
       <tr>
         <td>e1ea4811</td>
-        <td><img src="data/images/crops/3689129454680282_04.jpg" style="max-width:140px;border-radius:4px"></td>
+        <td><img src="data/images/crops/3689129454680282_04.jpg?v=9caa7e0" style="max-width:140px;border-radius:4px"></td>
         <td>50.06390<br>19.92761</td>
         <td>0.23 · minor · 0.72</td>
         <td><b>Czysta 1</b>, 31-121, Kraków<br><span style="color:var(--mute)">Dzielnica I Stare Miasto · rejon SM I/07</span></td>
       </tr>
       <tr>
         <td>5d89ccbc</td>
-        <td><img src="data/images/crops/3689129454680282_06.jpg" style="max-width:140px;border-radius:4px"></td>
+        <td><img src="data/images/crops/3689129454680282_06.jpg?v=9caa7e0" style="max-width:140px;border-radius:4px"></td>
         <td>50.06390<br>19.92761</td>
         <td>0.21 · moderate · 0.98</td>
         <td><b>Czysta 1</b>, 31-121, Kraków<br><span style="color:var(--mute)">Dzielnica I Stare Miasto · rejon SM I/07</span></td>
@@ -468,14 +468,14 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
     <h3>The Kazimierz hotspot</h3>
     <p>Dajwór 19 (corner with Józefa) — a weathered building covered in stickers, scribbles, and tags. Six detections survive the filter chain, including the "ofles" tag, the black scribble cluster around the right door, and the sticker bands.</p>
     <div class="figure">
-      <img src="data/queue_viz/453477123996222/overlay.jpg" alt="Dajwór 19 — six graffiti detections">
-      <figcaption>Mapillary image 453477123996222 at 50.05101, 19.94942. Six boxes from GroundingDINO + CLIP, all passing the second-stage classifier.</figcaption>
+      <img src="data/queue_viz/453477123994712/overlay.jpg?v=9caa7e0" alt="Dajwór 19 — six graffiti detections">
+      <figcaption>Mapillary image 453477123994712 at 50.05101, 19.94942. Six boxes from GroundingDINO + CLIP, all passing the second-stage classifier.</figcaption>
     </div>
 
     <h3>Shareable artifacts</h3>
     <p>For manual filing or hand-off:</p>
     <ul>
-      <li><a href="demo/map.html"><b>demo/map.html</b></a> — interactive Leaflet map with 622 pins across 8 districts, severity colour-coding, heatmap toggle, per-address side panel, GSV verification link per popup. Click an address to fly there.</li>
+      <li><a href="demo/map.html?v=9caa7e0"><b>demo/map.html</b></a> — interactive Leaflet map with 622 pins across 8 districts, severity colour-coding, heatmap toggle, per-address side panel, GSV verification link per popup. Click an address to fly there.</li>
       <li><a href="https://docs.google.com/spreadsheets/d/1LsUawp4Lc-li1RGb4MdS1hpTZmSTKD4xYqW_Ig7dDPU/edit">Google Sheet (622 rows)</a> — full table with capture date, address, district, rejon SM, building/parcel IDs, severity, score, crop path.</li>
       <li><code>data/runs/20260528-132229/proposed.jsonl</code> — raw JSON, one entry per line.</li>
       <li><code>data/queue_gallery.html</code> — per-source-image overlay JPEGs.</li>
@@ -526,19 +526,19 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
     <h3>Dajwór 19 — Kazimierz street-art block</h3>
     <p>Five detections survive on this frame, including the "ofles" tag at the top-right and the sticker cluster around the doorway. Eleven detections on the same address across two camera positions.</p>
     <div class="figure">
-      <iframe src="https://www.mapillary.com/embed?image_key=453477123996222&style=photo" allowfullscreen style="width:100%;height:520px;border:1px solid var(--line);border-radius:8px"></iframe>
-      <figcaption>Mapillary image 453477123996222 at 50.05101, 19.94942 · Kazimierz</figcaption>
+      <iframe src="https://www.mapillary.com/embed?image_key=453477123994712&style=photo" allowfullscreen style="width:100%;height:520px;border:1px solid var(--line);border-radius:8px"></iframe>
+      <figcaption>Mapillary image 453477123994712 at 50.05101, 19.94942 · Kazimierz</figcaption>
     </div>
 
     <h3>Annotated overlays</h3>
     <p>The SAM3 + CLIP boxes drawn back onto the source images. Cyan boxes survived the hybrid pipeline; each was confirmed by a CLIP zero-shot classifier against ten labels.</p>
     <div class="figure">
-      <img src="data/queue_viz/3689129454680282/overlay.jpg" alt="Bar Mleczny corner — 13 SAM3 boxes">
+      <img src="data/queue_viz/3689129454680282/overlay.jpg?v=9caa7e0" alt="Bar Mleczny corner — 13 SAM3 boxes">
       <figcaption>3689129454680282 · 13 boxes via SAM3+CLIP</figcaption>
     </div>
     <div class="figure">
-      <img src="data/queue_viz/453477123996222/overlay.jpg" alt="Dajwór 19 — 5 SAM3 boxes">
-      <figcaption>453477123996222 · 5 boxes via SAM3+CLIP</figcaption>
+      <img src="data/queue_viz/453477123994712/overlay.jpg?v=9caa7e0" alt="Dajwór 19 — 5 SAM3 boxes">
+      <figcaption>453477123994712 · 5 boxes via SAM3+CLIP</figcaption>
     </div>
 
     <h3>Google Street View, optionally</h3>
@@ -558,7 +558,7 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
     <p>The XForm definition declares <code>captcha.isEnabled = false</code>. The live webform disagrees. After uploading a photo and starting to fill the categories, the form reveals an image CAPTCHA labelled "Wpisz tekst":</p>
 
     <div class="figure">
-      <img src="data/runs/browser_fill/5c904830d8c16e2f573a0816afdc5a5c/11_ready_to_submit_NO_CLICK.png" alt="Survey123 form with CAPTCHA">
+      <img src="data/runs/browser_fill/5c904830d8c16e2f573a0816afdc5a5c/11_ready_to_submit_NO_CLICK.png?v=9caa7e0" alt="Survey123 form with CAPTCHA">
       <figcaption>Live Survey123 fill, step 11. Note the "ZCNE" CAPTCHA next to "Wpisz tekst" and the green Wyślij button. The Playwright run never clicks submit.</figcaption>
     </div>
 
