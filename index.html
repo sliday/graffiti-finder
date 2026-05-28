@@ -457,25 +457,29 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
     <h2>Explore the actual walls.</h2>
     <p class="kicker">Two corners where the corridor's graffiti density clusters. Both embeds use Mapillary's open imagery — no Google API key, no tracking.</p>
 
-    <h3>Czysta 1 corner (north end of Karmelicka)</h3>
-    <p>This frame produced 7 detections at <code>50.06390, 19.92761</code> — the highest concentration anywhere on the corridor. Visible tags include "JUMP8" in purple, a black-and-blue cluster on the lower wall, and the cream-coloured facade of Bar Mleczny.</p>
+    <h3>Czysta 1 corner — the densest spot on Karmelicka</h3>
+    <p>Bar Mleczny Górnik corner. Twelve detections survive the SAM3 + CLIP pipeline. Visible tags include the red "GZ" (now correctly bounded after a colour-std fix), the purple "JUMP8" on the central column, and the dense black-paint cluster around the doorway.</p>
     <div class="figure">
       <iframe src="https://www.mapillary.com/embed?image_key=3689129454680282&style=photo" allowfullscreen style="width:100%;height:520px;border:1px solid var(--line);border-radius:8px"></iframe>
-      <figcaption>Mapillary image 3689129454680282 · drag to look around · 7 boxes drawn by GroundingDINO</figcaption>
+      <figcaption>Mapillary image 3689129454680282 at 50.06390, 19.92761 · drag to look around</figcaption>
     </div>
 
-    <h3>Szewska 27 corner (south end, near Planty)</h3>
-    <p>3 detections at <code>50.06311, 19.93372</code> — smaller scribbles on the building base, visible as you approach from Dunajewskiego.</p>
+    <h3>Dajwór 19 — Kazimierz street-art block</h3>
+    <p>Five detections survive on this frame, including the "ofles" tag at the top-right and the sticker cluster around the doorway. Eleven detections on the same address across two camera positions.</p>
     <div class="figure">
-      <iframe src="https://www.mapillary.com/embed?image_key=3598709753764709&style=photo" allowfullscreen style="width:100%;height:520px;border:1px solid var(--line);border-radius:8px"></iframe>
-      <figcaption>Mapillary image 3598709753764709 · 3 boxes</figcaption>
+      <iframe src="https://www.mapillary.com/embed?image_key=453477123994712&style=photo" allowfullscreen style="width:100%;height:520px;border:1px solid var(--line);border-radius:8px"></iframe>
+      <figcaption>Mapillary image 453477123994712 at 50.05101, 19.94942 · Kazimierz</figcaption>
     </div>
 
-    <h3>Annotated overlay (rendered offline)</h3>
-    <p>The detector boxes drawn back onto the source image. Real positives: the "GZ", "JUMP8", and the dense black-paint cluster around the doorway. False positives: the tall vertical boxes around the lamp post and distant facade.</p>
+    <h3>Annotated overlays</h3>
+    <p>The SAM3 + CLIP boxes drawn back onto the source images. Cyan boxes survived the hybrid pipeline; each was confirmed by a CLIP zero-shot classifier against ten labels.</p>
     <div class="figure">
-      <img src="data/queue_viz/3689129454680282/overlay.jpg" alt="Bar Mleczny corner with detection boxes">
-      <figcaption>queue_viz/3689129454680282/overlay.jpg · GroundingDINO at box_threshold=0.20</figcaption>
+      <img src="data/queue_viz/3689129454680282/overlay.jpg" alt="Bar Mleczny corner — 13 SAM3 boxes">
+      <figcaption>3689129454680282 · 13 boxes via SAM3+CLIP</figcaption>
+    </div>
+    <div class="figure">
+      <img src="data/queue_viz/453477123994712/overlay.jpg" alt="Dajwór 19 — 5 SAM3 boxes">
+      <figcaption>453477123994712 · 5 boxes via SAM3+CLIP</figcaption>
     </div>
 
     <h3>Google Street View, optionally</h3>
