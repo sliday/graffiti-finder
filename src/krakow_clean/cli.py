@@ -78,6 +78,7 @@ def mock(
             record = {
                 "detection_id": row["detection_id"],
                 "image_id": row["image_id"],
+                "captured_at": row["captured_at"],
                 "lat": row["lat"],
                 "lng": row["lng"],
                 "mercator_x": x,

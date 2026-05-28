@@ -90,15 +90,15 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
     <p class="lede">Walk Karmelicka and Królewska through Mapillary. Find graffiti on walls with a local vision model. File anonymous reports to the city's Survey123 endpoint. No camera in hand, no name on the form, no permission asked.</p>
 
     <div class="meta">
-      <div><b>Status</b>12 routes walked · 367 form-ready entries</div>
+      <div><b>Status</b>12 routes walked · 209 freshest-per-spot entries</div>
       <div><b>Corridor</b>Old Town + Kazimierz, parallel SAM3+CLIP</div>
-      <div><b>Imagery</b>Mapillary, 2022+</div>
+      <div><b>Imagery</b>Mapillary, freshest-per-wall only (158 stale frames pruned)</div>
       <div><b>Form</b>Gravvitti_v_1 / WBIZK_UMK · no live submits</div>
     </div>
     <p style="margin:24px 0 0">
-      <a href="demo/map.html" style="background:var(--accent);color:#0d0d10;padding:8px 14px;border-radius:4px;font-family:var(--mono);font-size:13px;border:none;font-weight:600">→ open interactive map (367 pins)</a>
+      <a href="demo/map.html" style="background:var(--accent);color:#0d0d10;padding:8px 14px;border-radius:4px;font-family:var(--mono);font-size:13px;border:none;font-weight:600">→ open interactive map (209 pins)</a>
       &nbsp;
-      <a href="https://docs.google.com/spreadsheets/d/1l36rLrI9z6DD4P0DYlGZGV1_09FTkXLrjRnDlMn9OUc/edit" style="font-family:var(--mono);font-size:13px">Google Sheet (367 rows)</a>
+      <a href="https://docs.google.com/spreadsheets/d/1qPOcArx6zKpcpMFA-eRAphbgx1kE1PptkogUxweZI9A/edit" style="font-family:var(--mono);font-size:13px">Google Sheet (209 rows with capture date)</a>
     </p>
 
     <ol class="toc">
@@ -334,7 +334,17 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
 <section id="materials">
   <div class="wrap">
     <h2>Materials ready for the form.</h2>
-    <p class="kicker"><b>367 form-ready entries across 56 unique addresses in Old Town and Kazimierz.</b> Each row below is one form submission, queued in <code>store.sqlite</code> and ready for either manual filing or supervised batch send. Nothing submitted to the city.</p>
+    <p class="kicker"><b>209 freshest-per-wall entries across 51 unique addresses.</b> Each row is the most recent Mapillary frame showing graffiti at that spot — older frames at the same wall got pruned (the paint may have been cleaned between captures). Queued in <code>store.sqlite</code>, ready for either manual filing or supervised batch send. Nothing submitted to the city.</p>
+
+    <p style="color:var(--mute);font-size:14px">
+      Freshness distribution (capture month of the surviving frame at each wall):
+      &nbsp;<b>2024-10:</b> 101 &nbsp;
+      <b>2024-09:</b> 29 &nbsp;
+      <b>2024-06:</b> 54 &nbsp;
+      <b>2025-04:</b> 4 &nbsp;
+      <b>2026-04:</b> 2 &nbsp;
+      <span style="color:var(--mute);font-size:12px">(small tail in 2023 and earlier)</span>
+    </p>
 
     <h3>Top 8 hotspots by detections</h3>
     <table class="spec">

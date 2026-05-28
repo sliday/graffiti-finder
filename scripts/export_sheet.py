@@ -19,6 +19,7 @@ from krakow_clean.config import load_config
 
 COLUMNS = [
     "detection_id",
+    "captured_at",     # when the Mapillary frame was taken
     "lat",
     "lng",
     "address",
@@ -33,7 +34,7 @@ COLUMNS = [
     "miejsce",
     "crop_path",
     "image_id",
-    "rendered_at",
+    "rendered_at",     # when we ran SAM3+CLIP
 ]
 
 
@@ -58,8 +59,12 @@ def _latest_proposed(runs_dir: Path) -> Path | None:
 
 def _row(entry: dict) -> list:
     enr = entry.get("enrichment", {}) or {}
+    captured = entry.get("captured_at") or ""
+    if captured:
+        captured = captured[:10]  # YYYY-MM-DD slice
     return [
         entry.get("detection_id", ""),
+        captured,
         entry.get("lat"),
         entry.get("lng"),
         enr.get("adres") or "",

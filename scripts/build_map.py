@@ -66,6 +66,9 @@ def main() -> None:
         addr = enr.get("adres") or f"({r['lat']:.5f}, {r['lng']:.5f})"
         crop = Path(r["crop_path"]) if r["crop_path"] else None
         thumb = _b64_thumb(crop) if crop else None
+        captured_at = r["captured_at"] or ""
+        # Friendly short date for the popup.
+        captured_short = captured_at[:10] if captured_at else "—"
         point = {
             "id": r["detection_id"][:8],
             "lat": r["lat"],
@@ -76,6 +79,7 @@ def main() -> None:
             "dzielnica": enr.get("dzielnica") or "",
             "rejon_sm": enr.get("rejon_sm") or "",
             "image_id": r["image_id"],
+            "captured_at": captured_short,
             "thumb": thumb,
         }
         points.append(point)
@@ -227,6 +231,8 @@ function popupNode(p) {{
               field('id:', `${{p.id}} · score: ${{p.score}} · sev: ${{p.severity}}`),
               document.createElement('br'),
               field('', `${{p.dzielnica}} · ${{p.rejon_sm}}`),
+              document.createElement('br'),
+              field('captured:', p.captured_at),
               document.createElement('br'));
   if (p.thumb) {{
     const img = document.createElement('img');

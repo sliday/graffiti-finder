@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS detections (
     miejsce       TEXT,
     crop_path     TEXT,
     crop_phash    TEXT,
-    detected_at   TEXT NOT NULL,
+    captured_at   TEXT,          -- ISO 8601, when the Mapillary frame was taken
+    detected_at   TEXT NOT NULL, -- when we ran SAM3+CLIP
     submitted_at  TEXT,
     submit_status TEXT NOT NULL DEFAULT 'pending',
     instance_id   TEXT,
@@ -37,12 +38,13 @@ CREATE INDEX IF NOT EXISTS idx_phash ON detections(crop_phash);
 
 
 def _migrate(conn: sqlite3.Connection) -> None:
-    """Add crop_phash column on existing DBs (best-effort)."""
-    try:
-        conn.execute("ALTER TABLE detections ADD COLUMN crop_phash TEXT")
-        conn.commit()
-    except sqlite3.OperationalError:
-        pass  # column exists
+    """Add new columns on existing DBs (best-effort, idempotent)."""
+    for col, decl in [("crop_phash", "TEXT"), ("captured_at", "TEXT")]:
+        try:
+            conn.execute(f"ALTER TABLE detections ADD COLUMN {col} {decl}")
+            conn.commit()
+        except sqlite3.OperationalError:
+            pass  # column exists
 
 
 @dataclass(frozen=True)
@@ -189,6 +191,7 @@ def upsert_pending(
     miejsce: str,
     crop_path: Path,
     crop_phash: str | None = None,
+    captured_at: str | None = None,
 ) -> bool:
     """Return True if newly inserted, False if it already existed."""
     detected_at = datetime.now(timezone.utc).isoformat()
@@ -196,8 +199,8 @@ def upsert_pending(
         """
         INSERT OR IGNORE INTO detections
         (detection_id, image_id, lat, lng, severity, score, rodzaj, miejsce,
-         crop_path, crop_phash, detected_at, submit_status)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
+         crop_path, crop_phash, captured_at, detected_at, submit_status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
         """,
         (
             detection_id_,
@@ -210,11 +213,57 @@ def upsert_pending(
             miejsce,
             str(crop_path),
             crop_phash,
+            captured_at,
             detected_at,
         ),
     )
     conn.commit()
     return cur.rowcount == 1
+
+
+def prune_stale_at_spot(
+    conn: sqlite3.Connection,
+    *,
+    bucket_degrees: float = 0.0001,  # ~11 m at Krakow latitude
+) -> int:
+    """For each spatial bucket, keep only detections from the most recent
+    Mapillary frame (by captured_at). Older frames at the same wall are
+    deleted on the assumption their graffiti may have been cleaned.
+
+    Returns the number of rows deleted.
+    """
+    rows = conn.execute(
+        """
+        SELECT detection_id, image_id, lat, lng, captured_at
+        FROM detections
+        WHERE submit_status = 'pending'
+          AND captured_at IS NOT NULL
+        """
+    ).fetchall()
+    if not rows:
+        return 0
+    freshest: dict[tuple[int, int], tuple[str, str]] = {}
+    for r in rows:
+        key = (round(r["lat"] / bucket_degrees), round(r["lng"] / bucket_degrees))
+        prev = freshest.get(key)
+        if prev is None or r["captured_at"] > prev[1]:
+            freshest[key] = (r["image_id"], r["captured_at"])
+
+    to_delete: list[str] = []
+    for r in rows:
+        key = (round(r["lat"] / bucket_degrees), round(r["lng"] / bucket_degrees))
+        keeper_image, _ = freshest[key]
+        if r["image_id"] != keeper_image:
+            to_delete.append(r["detection_id"])
+
+    if to_delete:
+        placeholders = ",".join("?" * len(to_delete))
+        conn.execute(
+            f"DELETE FROM detections WHERE detection_id IN ({placeholders})",
+            to_delete,
+        )
+        conn.commit()
+    return len(to_delete)
 
 
 def mark_submitted(

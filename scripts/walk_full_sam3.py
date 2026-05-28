@@ -98,6 +98,7 @@ def main(argv: list[str]) -> int:
                 det.severity, det.sam3_score,
                 RODZAJ["other"], MIEJSCE["building_wall"],
                 det.crop_path, crop_phash=phash,
+                captured_at=ref.captured_at.isoformat(),
             ):
                 kept += 1
 
