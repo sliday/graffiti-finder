@@ -14,7 +14,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 from krakow_clean.config import load_config
-from krakow_clean.vision import detect_with_overlay
+from krakow_clean.vision_sam3 import detect_with_overlay
 
 
 def main() -> None:
@@ -45,6 +45,8 @@ def main() -> None:
         overlay_dir = out_root / image_id
         overlay_dir.mkdir(exist_ok=True)
         detections, overlay_path = detect_with_overlay(src, image_id, overlay_dir)
+        # Re-locate overlay to deterministic name (sam3 hybrid writes
+        # overlay.jpg already; older code expected sam3 module to do it).
         print(f"  {image_id}: {len(detections)} boxes drawn")
 
         crops_html = "".join(
@@ -60,7 +62,7 @@ def main() -> None:
             f'<p class="meta">lat <b>{first["lat"]:.5f}</b> · '
             f'lng <b>{first["lng"]:.5f}</b> · '
             f'{len(detections)} detections · '
-            f'top score <b>{max((d.score for d in detections), default=0):.2f}</b></p>'
+            f'top score <b>{max((getattr(d, "sam3_score", getattr(d, "score", 0)) for d in detections), default=0):.2f}</b></p>'
             f'</header>'
             f'<div class="row">'
             f'<a href="queue_viz/{image_id}/overlay.jpg" class="overlay-link">'
