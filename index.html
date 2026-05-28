@@ -90,15 +90,19 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
     <p class="lede">Walk Karmelicka and Królewska through Mapillary. Find graffiti on walls with a local vision model. File anonymous reports to the city's Survey123 endpoint. No camera in hand, no name on the form, no permission asked.</p>
 
     <div class="meta">
-      <div><b>Status</b>12 routes walked · 209 freshest-per-spot entries</div>
-      <div><b>Corridor</b>Old Town + Kazimierz, parallel SAM3+CLIP</div>
-      <div><b>Imagery</b>Mapillary, freshest-per-wall only (158 stale frames pruned)</div>
+      <div><b>Status</b>80 grid tiles walked · 471 freshest-per-wall entries</div>
+      <div><b>Coverage</b>Inner Kraków, 8 districts, parallel SAM3+CLIP</div>
+      <div><b>Imagery</b>Mapillary 2023-2026, freshest-per-spot only</div>
       <div><b>Form</b>Gravvitti_v_1 / WBIZK_UMK · no live submits</div>
     </div>
     <p style="margin:24px 0 0">
-      <a href="demo/map.html" style="background:var(--accent);color:#0d0d10;padding:8px 14px;border-radius:4px;font-family:var(--mono);font-size:13px;border:none;font-weight:600">→ open interactive map (209 pins)</a>
+      <a href="demo/map.html" style="background:var(--accent);color:#0d0d10;padding:8px 14px;border-radius:4px;font-family:var(--mono);font-size:13px;border:none;font-weight:600">→ open interactive map (471 pins)</a>
       &nbsp;
-      <a href="https://docs.google.com/spreadsheets/d/1qPOcArx6zKpcpMFA-eRAphbgx1kE1PptkogUxweZI9A/edit" style="font-family:var(--mono);font-size:13px">Google Sheet (209 rows with capture date)</a>
+      <a href="https://docs.google.com/spreadsheets/d/1H29lvL_yJ7aGDROIOKKn1SPM4Upv38q8Lq5Lg8gdXA4/edit" style="font-family:var(--mono);font-size:13px">Google Sheet (471 rows)</a>
+    </p>
+    <p style="margin:14px 0 0;font-family:var(--mono);font-size:12px;color:var(--mute)">
+      Live: <a href="https://krakow-graffiti.pages.dev/">krakow-graffiti.pages.dev</a> ·
+      Map: <a href="https://krakow-graffiti.pages.dev/map">krakow-graffiti.pages.dev/map</a>
     </p>
     <p style="margin:14px 0 0;font-family:var(--mono);font-size:12px;color:var(--mute)">
       Live: <a href="https://krakow-graffiti.pages.dev/">krakow-graffiti.pages.dev</a> ·
@@ -338,29 +342,44 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
 <section id="materials">
   <div class="wrap">
     <h2>Materials ready for the form.</h2>
-    <p class="kicker"><b>209 freshest-per-wall entries across 51 unique addresses.</b> Each row is the most recent Mapillary frame showing graffiti at that spot — older frames at the same wall got pruned (the paint may have been cleaned between captures). Queued in <code>store.sqlite</code>, ready for either manual filing or supervised batch send. Nothing submitted to the city.</p>
+    <p class="kicker"><b>471 freshest-per-wall entries spread across 8 Kraków districts.</b> Each row is the most recent Mapillary frame showing graffiti at that spot — older frames at the same wall got pruned (the paint may have been cleaned between captures). Queued in <code>store.sqlite</code>, ready for either manual filing or supervised batch send. Nothing submitted to the city.</p>
+
+    <h3>Coverage by district</h3>
+    <table class="spec">
+      <tr><th>district</th><th>detections</th></tr>
+      <tr><td>Stare Miasto</td><td><b>256</b></td></tr>
+      <tr><td>Krowodrza</td><td><b>84</b></td></tr>
+      <tr><td>Prądnik Czerwony</td><td><b>45</b></td></tr>
+      <tr><td>Grzegórzki</td><td><b>28</b></td></tr>
+      <tr><td>Podgórze</td><td><b>27</b></td></tr>
+      <tr><td>Zwierzyniec</td><td><b>16</b></td></tr>
+      <tr><td>Dębniki</td><td><b>11</b></td></tr>
+      <tr><td>Prądnik Biały</td><td><b>4</b></td></tr>
+    </table>
 
     <p style="color:var(--mute);font-size:14px">
       Freshness distribution (capture month of the surviving frame at each wall):
-      &nbsp;<b>2024-10:</b> 101 &nbsp;
-      <b>2024-09:</b> 29 &nbsp;
-      <b>2024-06:</b> 54 &nbsp;
-      <b>2025-04:</b> 4 &nbsp;
-      <b>2026-04:</b> 2 &nbsp;
+      &nbsp;<b>2026:</b> few &nbsp;
+      <b>2025:</b> 103 &nbsp;
+      <b>2024-10:</b> 123 &nbsp;
+      <b>2024-09:</b> 43 &nbsp;
+      <b>2024-06:</b> 60 &nbsp;
       <span style="color:var(--mute);font-size:12px">(small tail in 2023 and earlier)</span>
     </p>
 
-    <h3>Top 8 hotspots by detections</h3>
+    <h3>Top 10 hotspots by detections</h3>
     <table class="spec">
       <tr><th>#</th><th>address</th><th>district</th></tr>
-      <tr><td><b>45</b></td><td>Dolnych Młynów 9, 31-124</td><td>Stare Miasto · I/07</td></tr>
-      <tr><td><b>33</b></td><td>Czysta 1, 31-121 <small style="color:var(--mute)">(Bar Mleczny Górnik corner)</small></td><td>Stare Miasto · I/07</td></tr>
-      <tr><td><b>30</b></td><td>Kochanowskiego 14, 31-127</td><td>Stare Miasto · I/07</td></tr>
-      <tr><td><b>27</b></td><td>Dolnych Młynów 7, 31-124</td><td>Stare Miasto · I/07</td></tr>
-      <tr><td><b>19</b></td><td>Kochanowskiego 24, 31-127</td><td>Stare Miasto · I/07</td></tr>
-      <tr><td><b>16</b></td><td>Kochanowskiego 12, 31-127</td><td>Stare Miasto · I/07</td></tr>
-      <tr><td><b>15</b></td><td>Kochanowskiego 22, 31-127</td><td>Stare Miasto · I/07</td></tr>
+      <tr><td><b>25</b></td><td>Głowackiego 2, 30-085</td><td>Bronowice</td></tr>
+      <tr><td><b>22</b></td><td>Kochanowskiego 14, 31-127</td><td>Stare Miasto · I/07</td></tr>
+      <tr><td><b>18</b></td><td>Dolnych Młynów 7, 31-124</td><td>Stare Miasto · I/07</td></tr>
+      <tr><td><b>17</b></td><td>Podgórska 28, 31-536</td><td>Grzegórzki · II/01</td></tr>
+      <tr><td><b>16</b></td><td>Czysta 1, 31-121 <small style="color:var(--mute)">(Bar Mleczny Górnik)</small></td><td>Stare Miasto · I/07</td></tr>
       <tr><td><b>14</b></td><td>Michałowskiego 13, 31-126</td><td>Stare Miasto · I/07</td></tr>
+      <tr><td><b>13</b></td><td>Promienistych 10, 31-481</td><td>Prądnik Czerwony · III/07</td></tr>
+      <tr><td><b>12</b></td><td>Wrocławska 77, 30-011</td><td>Krowodrza · V/04</td></tr>
+      <tr><td><b>11</b></td><td>Michałowskiego 15, 31-126</td><td>Stare Miasto · I/07</td></tr>
+      <tr><td><b>10</b></td><td>Dajwór 19, 31-052 <small style="color:var(--mute)">(Kazimierz)</small></td><td>Stare Miasto · I/19</td></tr>
     </table>
     <p style="color:var(--mute);font-size:14px">
       The Krupnicza walk surfaced an unbroken graffiti corridor along
