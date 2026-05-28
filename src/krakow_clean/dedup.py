@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import math
 import sqlite3
+import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -64,13 +65,27 @@ def open_store(path: Path) -> sqlite3.Connection:
     conn = sqlite3.connect(path, timeout=30)
     # WAL mode allows concurrent reads + a single writer with much less
     # blocking — the parallel walker fan-out hits the store from several
-    # processes at once.
-    conn.execute("PRAGMA journal_mode=WAL")
+    # processes at once. The PRAGMA itself races when multiple workers
+    # open the store simultaneously on a fresh DB; retry briefly.
+    for _ in range(10):
+        try:
+            conn.execute("PRAGMA journal_mode=WAL")
+            break
+        except sqlite3.OperationalError:
+            time.sleep(0.2)
     conn.execute("PRAGMA synchronous=NORMAL")
-    conn.execute("PRAGMA busy_timeout=10000")
-    conn.executescript(TABLE_DDL)
-    _migrate(conn)
-    conn.executescript(INDEX_DDL)
+    conn.execute("PRAGMA busy_timeout=15000")
+
+    # Table/index DDL is also serialised under WAL; same retry.
+    for _ in range(10):
+        try:
+            conn.executescript(TABLE_DDL)
+            _migrate(conn)
+            conn.executescript(INDEX_DDL)
+            break
+        except sqlite3.OperationalError:
+            time.sleep(0.2)
+
     conn.row_factory = sqlite3.Row
     return conn
 
