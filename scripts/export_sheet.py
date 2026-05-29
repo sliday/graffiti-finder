@@ -24,6 +24,8 @@ COLUMNS = [
     "monument_name",
     "monument_kind",
     "monument_distance_m",
+    "writer_id",       # CLIP-style cluster — 1 = largest group; sort to find serial offenders
+    "writer_cluster_size",
     "lat",
     "lng",
     "address",
@@ -67,6 +69,7 @@ def _row(entry: dict) -> list:
     if captured:
         captured = captured[:10]  # YYYY-MM-DD slice
     mon = entry.get("monument") or {}
+    wr = entry.get("writer") or {}
     return [
         entry.get("detection_id", ""),
         captured,
@@ -74,6 +77,8 @@ def _row(entry: dict) -> list:
         mon.get("name") or "",
         mon.get("kind") or "",
         round(mon["distance_m"], 1) if mon.get("distance_m") is not None else "",
+        wr.get("writer_id") or "",
+        wr.get("cluster_size") or "",
         entry.get("lat"),
         entry.get("lng"),
         enr.get("adres") or "",

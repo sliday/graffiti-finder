@@ -28,6 +28,7 @@ sed -E \
     -e 's|(href=")(demo/map\.html)(")|\1\2'"$CACHE_BUST"'\3|g' \
     index.html > "$PUBLIC/index.html"
 cp demo/map.html                           "$PUBLIC/demo/"
+cp demo/writers.html                       "$PUBLIC/" 2>/dev/null || true
 cp data/queue_gallery.html                 "$PUBLIC/data/"
 cp data/samples/gallery.html               "$PUBLIC/data/samples/"
 cp data/samples/sample_0[0-7]_*.jpg        "$PUBLIC/data/samples/"

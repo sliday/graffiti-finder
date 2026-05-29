@@ -85,6 +85,12 @@ def mock(
                     "distance_m": row["monument_distance_m"],
                     "osm_id": row["monument_osm_id"],
                 }
+            writer = None
+            if "writer_id" in cols and row["writer_id"] is not None:
+                writer = {
+                    "writer_id": row["writer_id"],
+                    "cluster_size": row["writer_cluster_size"],
+                }
             record = {
                 "detection_id": row["detection_id"],
                 "image_id": row["image_id"],
@@ -100,6 +106,7 @@ def mock(
                 "crop_path": row["crop_path"],
                 "enrichment": enrichment.__dict__,
                 "monument": monument,
+                "writer": writer,
                 "rendered_at": datetime.now(timezone.utc).isoformat(),
             }
             fp.write(_json.dumps(record, ensure_ascii=False) + "\n")

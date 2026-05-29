@@ -70,6 +70,8 @@ def main() -> None:
         # Friendly short date for the popup.
         captured_short = captured_at[:10] if captured_at else "—"
         is_monument = bool(r["is_monument"]) if "is_monument" in r.keys() else False
+        writer_id = r["writer_id"] if "writer_id" in r.keys() else None
+        cluster_size = r["writer_cluster_size"] if "writer_cluster_size" in r.keys() else None
         point = {
             "id": r["detection_id"][:8],
             "lat": r["lat"],
@@ -87,6 +89,8 @@ def main() -> None:
             "monument_kind": r["monument_kind"] if "monument_kind" in r.keys() else None,
             "monument_distance_m": round(r["monument_distance_m"], 1)
                 if ("monument_distance_m" in r.keys() and r["monument_distance_m"] is not None) else None,
+            "writer_id": writer_id,
+            "cluster_size": cluster_size,
         }
         points.append(point)
         agg = by_address[addr]
@@ -201,6 +205,7 @@ body, html {{ margin: 0; height: 100%; font: 13px/1.4 -apple-system, system-ui, 
       <button id='pinBtn' class='on'>All pins</button>
       <button id='monBtn'>⚠ Monuments only</button>
       <button id='heatBtn'>Heatmap</button>
+      <a href='/writers.html' target='_blank' style='align-self:center;margin-left:auto;color:#c9f76f;font:12px ui-monospace,monospace;text-decoration:none'>writer clusters →</a>
     </div>
     <div id='addresses'></div>
   </div>
@@ -248,6 +253,18 @@ function popupNode(p) {{
     badge.style.fontSize = '11px';
     badge.style.lineHeight = '1.4';
     root.appendChild(badge);
+  }}
+  if (p.cluster_size && p.cluster_size >= 3) {{
+    const wb = document.createElement('div');
+    wb.textContent = `writer cluster #${{p.writer_id}} · ${{p.cluster_size}} similar tags`;
+    wb.style.background = '#c9f76f22';
+    wb.style.color = '#c9f76f';
+    wb.style.padding = '4px 8px';
+    wb.style.borderRadius = '4px';
+    wb.style.marginBottom = '8px';
+    wb.style.fontFamily = 'ui-monospace, monospace';
+    wb.style.fontSize = '11px';
+    root.appendChild(wb);
   }}
   const addr = document.createElement('b');
   addr.textContent = p.address;
