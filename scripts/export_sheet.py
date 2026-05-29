@@ -20,6 +20,10 @@ from krakow_clean.config import load_config
 COLUMNS = [
     "detection_id",
     "captured_at",     # when the Mapillary frame was taken
+    "is_monument",     # 1 = on protected building (criminal in PL), 0 = misdemeanour
+    "monument_name",
+    "monument_kind",
+    "monument_distance_m",
     "lat",
     "lng",
     "address",
@@ -62,9 +66,14 @@ def _row(entry: dict) -> list:
     captured = entry.get("captured_at") or ""
     if captured:
         captured = captured[:10]  # YYYY-MM-DD slice
+    mon = entry.get("monument") or {}
     return [
         entry.get("detection_id", ""),
         captured,
+        1 if mon.get("is_monument") else 0,
+        mon.get("name") or "",
+        mon.get("kind") or "",
+        round(mon["distance_m"], 1) if mon.get("distance_m") is not None else "",
         entry.get("lat"),
         entry.get("lng"),
         enr.get("adres") or "",

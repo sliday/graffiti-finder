@@ -75,6 +75,16 @@ def mock(
         for row in pending:
             enrichment = enrich(client, row["lng"], row["lat"])
             x, y = _TO_MERCATOR.transform(row["lng"], row["lat"])
+            cols = set(row.keys())
+            monument = None
+            if "is_monument" in cols and row["is_monument"]:
+                monument = {
+                    "is_monument": True,
+                    "name": row["monument_name"],
+                    "kind": row["monument_kind"],
+                    "distance_m": row["monument_distance_m"],
+                    "osm_id": row["monument_osm_id"],
+                }
             record = {
                 "detection_id": row["detection_id"],
                 "image_id": row["image_id"],
@@ -89,13 +99,15 @@ def mock(
                 "miejsce": row["miejsce"],
                 "crop_path": row["crop_path"],
                 "enrichment": enrichment.__dict__,
+                "monument": monument,
                 "rendered_at": datetime.now(timezone.utc).isoformat(),
             }
             fp.write(_json.dumps(record, ensure_ascii=False) + "\n")
+            mon_tag = f" [red]⚠ {monument['name']}[/]" if monument else ""
             console.print(
                 f"[blue]mock[/] {row['detection_id'][:8]} "
                 f"({row['lat']:.5f},{row['lng']:.5f}) "
-                f"dziel={enrichment.dzielnica!s} adr={enrichment.adres!s}"
+                f"adr={enrichment.adres!s}{mon_tag}"
             )
     console.print(f"\n[bold]wrote[/] {out_path}")
 

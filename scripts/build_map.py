@@ -69,6 +69,7 @@ def main() -> None:
         captured_at = r["captured_at"] or ""
         # Friendly short date for the popup.
         captured_short = captured_at[:10] if captured_at else "—"
+        is_monument = bool(r["is_monument"]) if "is_monument" in r.keys() else False
         point = {
             "id": r["detection_id"][:8],
             "lat": r["lat"],
@@ -81,6 +82,11 @@ def main() -> None:
             "image_id": r["image_id"],
             "captured_at": captured_short,
             "thumb": thumb,
+            "is_monument": is_monument,
+            "monument_name": r["monument_name"] if "monument_name" in r.keys() else None,
+            "monument_kind": r["monument_kind"] if "monument_kind" in r.keys() else None,
+            "monument_distance_m": round(r["monument_distance_m"], 1)
+                if ("monument_distance_m" in r.keys() and r["monument_distance_m"] is not None) else None,
         }
         points.append(point)
         agg = by_address[addr]
@@ -90,6 +96,9 @@ def main() -> None:
         agg["lat"] = r["lat"]
         agg["lng"] = r["lng"]
         agg["image_ids"].add(r["image_id"])
+        if is_monument:
+            agg.setdefault("monument_count", 0)
+            agg["monument_count"] += 1
 
     addresses = sorted(
         [
@@ -98,13 +107,14 @@ def main() -> None:
                 "count": v["count"],
                 "max_score": round(v["max_score"], 2),
                 "severities": dict(v["severities"]),
+                "monument_count": v.get("monument_count", 0),
                 "lat": v["lat"],
                 "lng": v["lng"],
                 "image_ids": sorted(v["image_ids"]),
             }
             for addr, v in by_address.items()
         ],
-        key=lambda x: x["count"],
+        key=lambda x: (x["monument_count"], x["count"]),
         reverse=True,
     )
 
@@ -188,7 +198,8 @@ body, html {{ margin: 0; height: 100%; font: 13px/1.4 -apple-system, system-ui, 
     <h1>clean-krakow — detections</h1>
     <div class='meta'>{len(points)} pins · {len(addresses)} addresses · generated {__import__('datetime').datetime.now().strftime('%Y-%m-%d %H:%M')}</div>
     <div class='toggle'>
-      <button id='pinBtn' class='on'>Pins</button>
+      <button id='pinBtn' class='on'>All pins</button>
+      <button id='monBtn'>⚠ Monuments only</button>
       <button id='heatBtn'>Heatmap</button>
     </div>
     <div id='addresses'></div>
@@ -225,6 +236,19 @@ function field(label, value) {{
 
 function popupNode(p) {{
   const root = document.createElement('div');
+  if (p.is_monument) {{
+    const badge = document.createElement('div');
+    badge.textContent = `⚠ on monument · ${{p.monument_name || ''}} (${{p.monument_kind || ''}}) · ${{p.monument_distance_m}} m away · CRIMINAL CASE in PL`;
+    badge.style.background = '#e6394622';
+    badge.style.color = '#ff6b6b';
+    badge.style.padding = '6px 8px';
+    badge.style.borderRadius = '4px';
+    badge.style.marginBottom = '8px';
+    badge.style.fontFamily = 'ui-monospace, monospace';
+    badge.style.fontSize = '11px';
+    badge.style.lineHeight = '1.4';
+    root.appendChild(badge);
+  }}
   const addr = document.createElement('b');
   addr.textContent = p.address;
   root.append(addr, document.createElement('br'),
@@ -265,16 +289,20 @@ function popupNode(p) {{
 }}
 
 const pinLayer = L.layerGroup();
+const monumentMarkers = [];
+const allMarkers = [];
 points.forEach(p => {{
   const marker = L.circleMarker([p.lat, p.lng], {{
-    radius: 7,
+    radius: p.is_monument ? 9 : 7,
     fillColor: sevColour[p.severity] || '#7ad6ff',
-    color: '#0d0d10',
-    weight: 2,
+    color: p.is_monument ? '#e63946' : '#0d0d10',
+    weight: p.is_monument ? 3 : 2,
     fillOpacity: 0.92
   }});
   marker.bindPopup(popupNode(p));   // accepts HTMLElement; no innerHTML path.
   marker.addTo(pinLayer);
+  allMarkers.push(marker);
+  if (p.is_monument) monumentMarkers.push(marker);
 }});
 pinLayer.addTo(map);
 
@@ -292,7 +320,23 @@ document.getElementById('heatBtn').onclick = () => {{
   map.removeLayer(pinLayer); map.addLayer(heat);
   document.getElementById('heatBtn').classList.add('on');
   document.getElementById('pinBtn').classList.remove('on');
+  document.getElementById('monBtn').classList.remove('on');
 }};
+
+const monumentLayer = L.layerGroup(monumentMarkers);
+document.getElementById('monBtn').onclick = () => {{
+  map.removeLayer(pinLayer); map.removeLayer(heat);
+  map.addLayer(monumentLayer);
+  document.getElementById('monBtn').classList.add('on');
+  document.getElementById('pinBtn').classList.remove('on');
+  document.getElementById('heatBtn').classList.remove('on');
+}};
+document.getElementById('pinBtn').addEventListener('click', () => {{
+  map.removeLayer(monumentLayer);
+}});
+document.getElementById('heatBtn').addEventListener('click', () => {{
+  map.removeLayer(monumentLayer);
+}});
 
 function severityChip(sev, n) {{
   const span = document.createElement('span');
@@ -313,6 +357,13 @@ addresses.forEach(a => {{
   el.append(h, count, document.createElement('br'));
   for (const [sev, n] of Object.entries(a.severities)) {{
     el.appendChild(severityChip(sev, n));
+  }}
+  if (a.monument_count) {{
+    const mon = document.createElement('span');
+    mon.className = 'sev severe';
+    mon.style.marginLeft = '6px';
+    mon.textContent = `⚠ monument ×${{a.monument_count}}`;
+    el.appendChild(mon);
   }}
   el.onclick = () => map.flyTo([a.lat, a.lng], 18, {{duration: 0.6}});
   list.appendChild(el);
