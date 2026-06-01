@@ -40,7 +40,7 @@ def load_config() -> Config:
         survey_share_url=os.environ["SURVEY123_SHARE_URL"],
         submit_action="https://bezpiecznie.um.krakow.pl/portal/sharing/rest/content/items/fc26d76f8cfb4b478ae6132446459f28",
         feature_item_id="fc26d76f8cfb4b478ae6132446459f28",
-        nominatim_ua=os.environ.get("NOMINATIM_UA", "clean-krakow/0.1"),
+        nominatim_ua=os.environ.get("NOMINATIM_UA", "graffiti-finder/0.1"),
         data_dir=data,
         images_dir=data / "images",
         samples_dir=data / "samples",

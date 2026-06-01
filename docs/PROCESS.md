@@ -8,7 +8,7 @@ How the pipeline runs end to end. For "why" see `FINDINGS.md`. For
 ## One-shot setup
 
 ```bash
-cd /Users/stas/Playground/clean-krakow
+cd graffiti-finder
 
 # 1. Main env (Python 3.12, torch + transformers + playwright)
 uv sync
@@ -29,7 +29,7 @@ SURVEY123_PORTAL=https://bezpiecznie.um.krakow.pl/portal
 SURVEY123_SHARE_URL=https://survey123.arcgis.com/share/b996fb8c744f41a69c5d51729702c55b?portalUrl=https://bezpiecznie.um.krakow.pl/portal
 HF_TOKEN=hf_...
 HUGGING_FACE_HUB_TOKEN=hf_...
-NOMINATIM_UA=clean-krakow/0.1 (you@example)
+NOMINATIM_UA=graffiti-finder/0.1 (you@example)
 EOF
 
 # 4. HF auth for the SAM3 weights

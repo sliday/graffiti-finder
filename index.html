@@ -102,7 +102,7 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
     <p style="margin:24px 0 0">
       <a href="demo/map.html" style="background:var(--accent);color:#0d0d10;padding:8px 14px;border-radius:4px;font-family:var(--mono);font-size:13px;border:none;font-weight:600">→ open interactive map (622 pins)</a>
       &nbsp;
-      <a href="https://docs.google.com/spreadsheets/d/1LsUawp4Lc-li1RGb4MdS1hpTZmSTKD4xYqW_Ig7dDPU/edit" style="font-family:var(--mono);font-size:13px">Google Sheet (622 rows)</a>
+      <code>scripts/export_sheet.py</code> generates a Google Sheet
     </p>
     <p style="margin:14px 0 0;font-family:var(--mono);font-size:12px;color:var(--mute)">
       Live: <a href="https://krakow-graffiti.pages.dev/">krakow-graffiti.pages.dev</a> ·
@@ -390,7 +390,7 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
       <b>Dolnych Młynów</b> and <b>Kochanowskiego</b> — cross-streets that the
       Karmelicka sample never reached. Five distinct addresses in that block
       each carry 15+ tags. Latest
-      <a href="https://docs.google.com/spreadsheets/d/1LsUawp4Lc-li1RGb4MdS1hpTZmSTKD4xYqW_Ig7dDPU/edit">Google Sheet (622 rows)</a>.
+      <code>scripts/export_sheet.py</code> generates a Google Sheet.
     </p>
 
     <p>Pipeline that produced this list: Mapillary corridor walk → GroundingDINO with score≥0.20 → aspect/std geometric gates → CLIP second-stage classifier rejecting road signs, lamp posts, windows, and trees → <code>pulldata()</code>-equivalent civic enrichment → reverse-geocode against Krakow's Lokalizator. Zero false positives in this batch.</p>
@@ -476,7 +476,7 @@ footer{padding:40px 24px 80px;color:var(--mute);font-family:var(--mono);font-siz
     <p>For manual filing or hand-off:</p>
     <ul>
       <li><a href="demo/map.html"><b>demo/map.html</b></a> — interactive Leaflet map with 622 pins across 8 districts, severity colour-coding, heatmap toggle, per-address side panel, GSV verification link per popup. Click an address to fly there.</li>
-      <li><a href="https://docs.google.com/spreadsheets/d/1LsUawp4Lc-li1RGb4MdS1hpTZmSTKD4xYqW_Ig7dDPU/edit">Google Sheet (622 rows)</a> — full table with capture date, address, district, rejon SM, building/parcel IDs, severity, score, crop path.</li>
+      <li><code>scripts/export_sheet.py</code> generates a Google Sheet — full table with capture date, address, district, rejon SM, building/parcel IDs, severity, score, crop path.</li>
       <li><code>data/runs/20260528-132229/proposed.jsonl</code> — raw JSON, one entry per line.</li>
       <li><code>data/queue_gallery.html</code> — per-source-image overlay JPEGs.</li>
       <li><code>data/images/crops/</code> — EXIF-stripped crops ready for attachment upload.</li>
@@ -635,7 +635,7 @@ uv run krakow-clean mock    --limit 5
 uv run krakow-clean status
 uv run krakow-clean submit  --live --confirm-token=WYSLIJ --limit 1</pre>
 
-    <p>Source is at <code>/Users/stas/Playground/clean-krakow</code>. Spec at <code>docs/specs/2026-05-27-krakow-graffiti-reporter-design.md</code>. The eight sample images and detection sweep live in <code>data/samples/</code>.</p>
+    <p>Source is at <code><repo-root></code>. Spec at <code>docs/specs/2026-05-27-krakow-graffiti-reporter-design.md</code>. The eight sample images and detection sweep live in <code>data/samples/</code>.</p>
   </div>
 </section>
 

@@ -118,7 +118,7 @@ Autonomous + no network proxy is the user's call. Mitigation:
 ### `geo.py` — Reverse geocoder
 
 - Nominatim public endpoint with custom User-Agent `clean-krakow/0.1
-  (stas@variant.net)` per ToS.
+  (stas@sliday.com)` per ToS.
 - Rate-limited to 1 req/sec, retries with backoff.
 - Returns `Address(street, house_number, neighborhood, postcode,
   full_label_pl)`.

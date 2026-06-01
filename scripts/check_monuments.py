@@ -32,7 +32,7 @@ DB = ROOT / "data" / "store.sqlite"
 # Wide bbox: inner Krakow + Nowa Huta + Zabłocie + a little buffer.
 BBOX = (50.020, 19.870, 50.115, 20.105)  # S, W, N, E
 OVERPASS_URL = "https://overpass-api.de/api/interpreter"
-UA = "clean-krakow/0.1 (stas@variant.net)"
+UA = "graffiti-finder/0.1 (+https://github.com/sliday/graffiti-finder)"
 
 
 OVERPASS_QL = """
